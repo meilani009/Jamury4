@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Jamury4</string>
+
+    <string name="splash_screen">Splash Screen</string>
+    <string name="todo">TODO</string>
+    <string name="android_studio">Android Studio</string>
+    <string name="android_studio_android_com">android.studio@android.com</string>
+    <string name="mushroom_identification">Mushroom Identification</string>
+    <string name="load">Load Image</string>
+    <string name="start">\nStart</string>
+    <string name="daftar">\nDaftar Jamur</string>
+    <string name="cari">Pencarian</string>
+    <string name="petunjuk">Petunjuk Penggunaan</string>
+    <string name="load_image">Load Image</string>
+    <string name="crop_image">Crop Image</string>
+    <string name="result_image_desc">crop result</string>
+    <string name="main_button_select_image">Select Image</string>
+    <string name="main_activity_desciption">Sample activity to start image cropping.\nExample: User profile activity to select avatar.</string>
+    <string name="preprocessing">pre-processing</string>
+</resources>

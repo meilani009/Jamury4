@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:gravity="top"
+    android:orientation="vertical"
+    tools:context="com.a4bit.meilani.jamury4.MainActivity">
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/logo"
+        android:contentDescription="@string/todo" />
+
+
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:background="#144fa9"
+        android:drawableStart="@drawable/camera_icon"
+        android:paddingBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="36dp"
+        android:paddingTop="10dp"
+        android:text="@string/start"
+        android:textColor="#e8e9e9"
+        android:layout_marginStart="70dp" />
+
+    <Button
+        android:id="@+id/dft_button"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="10dp"
+        android:background="#fd5656"
+        android:drawableStart="@mipmap/ic_daftar"
+        android:paddingBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="36dp"
+        android:paddingTop="10dp"
+        android:text="@string/daftar"
+        android:textColor="#e8e9e9" />
+
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:background="#144fa9"
+        android:drawableStart="@drawable/ic_search"
+        android:paddingBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="36dp"
+        android:paddingTop="10dp"
+        android:text="@string/cari"
+        android:textColor="#e8e9e9"
+        android:layout_marginStart="70dp" />
+
+    <Button
+        android:id="@+id/manual_button"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:background="#fd5656"
+        android:drawableStart="@drawable/manual"
+        android:paddingBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="36dp"
+        android:paddingTop="10dp"
+        android:text="@string/petunjuk"
+        android:textColor="#e8e9e9"
+        android:layout_marginStart="70dp"/>
+</LinearLayout>
