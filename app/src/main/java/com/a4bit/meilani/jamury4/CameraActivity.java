@@ -78,6 +78,7 @@ public class CameraActivity extends AppCompatActivity{
                 System.out.println(resized.getHeight());
 
                 //segmentation
+
                 quick_start_cropped_image.setImageBitmap(img);
             }
         });
