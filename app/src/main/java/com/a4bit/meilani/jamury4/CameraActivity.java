@@ -29,46 +29,45 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 public class CameraActivity extends AppCompatActivity{
     ImageView quick_start_cropped_image;
     private Bitmap bitmap, bitmapCropped, medianBitmap, img;
-    Button prepoBtn;
+    Button prepoBtn,eksBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.crop_layout);
 
-        quick_start_cropped_image = (ImageView)findViewById(R.id.quick_start_cropped_image);
+        quick_start_cropped_image = (ImageView) findViewById(R.id.quick_start_cropped_image);
         prepoBtn = (Button) findViewById(R.id.prepoBtn);
         prepoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 img = bitmapCropped.copy(Bitmap.Config.ARGB_8888, true);
 
-                int[] pixel=new int[9];
-                int[] R=new int[9];
-                int[] B=new int[9];
-                int[] G=new int[9];
+                int[] pixel = new int[9];
+                int[] R = new int[9];
+                int[] B = new int[9];
+                int[] G = new int[9];
 
-                for(int i=1;i<img.getWidth()-1;i++){
-                    for(int j=1;j<img.getHeight()-1;j++)
-                    {
-                        pixel[0]=img.getPixel(i-1,j-1);
-                        pixel[1]=img.getPixel(i-1,j);
-                        pixel[3]=img.getPixel(i,j+1);
-                        pixel[2]=img.getPixel(i-1,j+1);
-                        pixel[4]=img.getPixel(i+1,j+1);
-                        pixel[5]=img.getPixel(i+1,j);
-                        pixel[6]=img.getPixel(i+1,j-1);
-                        pixel[7]=img.getPixel(i,j-1);
-                        pixel[8]=img.getPixel(i,j);
-                        for(int k=0;k<9;k++){
-                            R[k]=Color.red(pixel[k]);
-                            B[k]=Color.blue(pixel[k]);
-                            G[k]=Color.green(pixel[k]);
+                for (int i = 1; i < img.getWidth() - 1; i++) {
+                    for (int j = 1; j < img.getHeight() - 1; j++) {
+                        pixel[0] = img.getPixel(i - 1, j - 1);
+                        pixel[1] = img.getPixel(i - 1, j);
+                        pixel[3] = img.getPixel(i, j + 1);
+                        pixel[2] = img.getPixel(i - 1, j + 1);
+                        pixel[4] = img.getPixel(i + 1, j + 1);
+                        pixel[5] = img.getPixel(i + 1, j);
+                        pixel[6] = img.getPixel(i + 1, j - 1);
+                        pixel[7] = img.getPixel(i, j - 1);
+                        pixel[8] = img.getPixel(i, j);
+                        for (int k = 0; k < 9; k++) {
+                            R[k] = Color.red(pixel[k]);
+                            B[k] = Color.blue(pixel[k]);
+                            G[k] = Color.green(pixel[k]);
                         }
                         Arrays.sort(R);
                         Arrays.sort(G);
                         Arrays.sort(B);
-                        img.setPixel(i,j, Color.rgb(R[4], G[4], B[4]));
+                        img.setPixel(i, j, Color.rgb(R[4], G[4], B[4]));
                     }
                 }
 
@@ -77,12 +76,21 @@ public class CameraActivity extends AppCompatActivity{
                 System.out.println(resized.getWidth());
                 System.out.println(resized.getHeight());
 
-                //segmentation
 
                 quick_start_cropped_image.setImageBitmap(img);
             }
         });
+
+        eksBtn = (Button) findViewById(R.id.eksBtn);
+        eksBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
+
+
 
     /** Start pick image activity with chooser. */
     public void onSelectImageClick(View view) {

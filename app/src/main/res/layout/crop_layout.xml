@@ -22,12 +22,28 @@
         android:contentDescription="@string/result_image_desc"
         android:src="@drawable/placeholder"/>
 
-    <Button
-        android:id="@+id/prepoBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="12dp"
-        android:text="@string/preprocessing" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/prepoBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="12dp"
+            android:text="@string/preprocessing" />
+
+        <Button
+            android:id="@+id/eksBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="12dp"
+            android:text="@string/featurekstraction" />
+
+    </LinearLayout>
+
 
 </LinearLayout>
