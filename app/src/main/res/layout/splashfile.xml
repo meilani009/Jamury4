@@ -10,9 +10,26 @@
         android:id="@+id/logo_id"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
         android:contentDescription="@string/todo"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo"
+        android:layout_centerHorizontal="true"/>
+    <ProgressBar
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+        android:layout_marginTop="5dp"
+        android:id="@+id/progress_bar"
+        android:layout_below="@id/logo_id"
+        android:layout_centerHorizontal="true"/>
+    <TextView
+        android:id="@+id/txt_progress"
+        android:text="loading..."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/progress_bar"/>
+
+
 
 </RelativeLayout>

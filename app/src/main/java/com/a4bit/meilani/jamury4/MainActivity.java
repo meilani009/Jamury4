@@ -3,8 +3,14 @@ package com.a4bit.meilani.jamury4;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.a4bit.meilani.jamury4.utility.JamurHelper;
+import com.a4bit.meilani.jamury4.utility.JamurModel;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +31,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent mulai_kamera = new Intent(getApplicationContext(), CameraActivity.class);
                 startActivity(mulai_kamera);
+            }
+        });
+
+        btn_daftar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MushroomListActivity.class);
+                startActivity(intent);
             }
         });
     }
