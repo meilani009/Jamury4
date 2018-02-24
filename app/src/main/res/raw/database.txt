@@ -1,0 +1,11 @@
+﻿data0000|0000 – 0004|Agaricus Arvensis (Horse Mushroom)|Edible|choice , as one of the most delicious edible fungi|-|padang rumput|	putih , abu , coklat , coklat pudar|convex
+data0005|0005 – 0009|Agaricus Augustus(The Price)|Edible|Edible|-|hutan , kayu dan kebun |putih dengan bintik (scales) berwarna coklat|convex
+data0010|0010 - 0014|Agaricus campestris (Field Mushroom)|Edible|Choice|-|ladang / lapangan , area berumput|putih|convex or flat
+data0015|0015 - 0019|Agaricus macrosporus|Edible|Edible|-|pinggiran kayu dan padang rumput|putih , kekuningan dan coklat|convex(cembung)
+data0020|0020 - 0023|Agaricus Silvaticus (The Blushing Wood Mushroom)|Edible|edible|-|hutan konifera|coklat keabu-abuan|convex
+data0024|0024 - 0028|Agaricus silvicola (the wood mushroom)|Edible|Edible|-|hutan konifera|light cream|convex or flat
+data0029|0029 - 0033|Amanita Citrina ( The False Death Cap)|Edible|edible but not recommended|-|hutan konifera|kuning pucat , putih|flat
+data0034|0034 - 0042|Amanita Excelsa (Grey Spotted Amanita)|Edible|edible but not recommended|-|hutan . Tumbuh pada pohon berdaun lebar dan berserabut|coklat dengan corak abu - abu|convex or flat
+data0043|0043 - 0052|Amanita fulva (tawny grisette)|Edible|edible|-|hutan , tumbuh dibawah pohon oak , cemara , pinus dll|orange kecoklatan|knobbed (menonjol)
+data0053|0053 - 0062|Amanita rubescens(The Blusher)|Edible|choice -> ada beberapa orang yg alergi|-|hutan|coklat kemerahan|flat
+data0073|0073 - 0083|Armillaria mellea(Honey Fungus)|Edible|choice but not recommended|-|jamur tumbuh secara parasit pada pohon berdaun lebar|berwarna seperti madu|convex or flat
