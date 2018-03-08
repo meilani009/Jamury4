@@ -8,4 +8,93 @@ data0029|0029 - 0033|Amanita Citrina ( The False Death Cap)|Edible|edible but no
 data0034|0034 - 0042|Amanita Excelsa (Grey Spotted Amanita)|Edible|edible but not recommended|-|hutan . Tumbuh pada pohon berdaun lebar dan berserabut|coklat dengan corak abu - abu|convex or flat
 data0043|0043 - 0052|Amanita fulva (tawny grisette)|Edible|edible|-|hutan , tumbuh dibawah pohon oak , cemara , pinus dll|orange kecoklatan|knobbed (menonjol)
 data0053|0053 - 0062|Amanita rubescens(The Blusher)|Edible|choice -> ada beberapa orang yg alergi|-|hutan|coklat kemerahan|flat
+data0063|0063 - 0072|Cortinarius rotundisporus|Edible|inedible(tidak dapat dimakan)|-|hutan eukaliptus|hijau|convex
 data0073|0073 - 0083|Armillaria mellea(Honey Fungus)|Edible|choice but not recommended|-|jamur tumbuh secara parasit pada pohon berdaun lebar|berwarna seperti madu|convex or flat
+data0084|0084 - 0103|Auricularia auricula-judae(wood ear)|Edible|Edible|1) pada 100 g mengandung 370 kcal , 10.6 g protein , 0.2 g lemak , 65 g karbohidrat , 5.8 g kalsium dan 0.03% karotin .   2) sebagai alternatif untuk mengobati radang mata dan masalah tenggorokan . 3) sebagai obat anti tumor | dapat ditemukan pada kayu / batang pohon , terutama pada pohon yang sudah tua|coklat kemerahan , bertambah tua seiring usia|berbentuk seperti daun telinga
+data0104|0104 - 0112|Boletus badius(Bay Boletus)|Edible|Edible|dapat memperlambat pertumbuhan sel tumor|tumbuh di hutan konifera atau pada tunggul pohon yang membusuk|coklat tua|convex
+data0113|0113 - 0123|Boletus chrysenteron(Red Cracked Bolete)|Edible|edible|-|tumbuh di kayu yang keras|merah kecoklatan|convex
+data0124|0124 - 0128|Boletus edulis(Penny Bun)|Edible|choice|-|hutan , kebun , tumbuh dengan menyelimuti akar bawah pohon dengan jaringan jamur|coklat|convex
+data0129|0129|Neoboletus luridiformis (Scarletina Bolete)|Edible|choice but not recommended|-|hutan konifera|coklat|convex
+data0130|0130 - 0137|Boletus Luridus(Lurid Bolete)|Edible|edible but not recommended|-|tanah dengan banyak pohon|coklat zaitun|convex
+data0138|0138 - 0155|Boletus Rubellus(Ruby Bolete)|Edible|edible but not recommended|-|tumbuh dengan pohon oak|merah|convex or flat
+data0156|0156 - 0161|Boletus versipellis(Orangen Birch Bolete)|Edible|dapat dikonsumsi dengan pengolahan yang tepat|-|tumbuh dibawah pohon birch, dibulan july – november|merah kecoklatan , merah bata|convex
+data0162|0162 - 0170|Chalciporus piperatus (Peppery Bolete)|Edible|edible but unplatable (tak enak)|-|hutan konifera , dibawah pohon oak , seringkali di tanah berpasir|Orange|Convex
+data0171|0171 - 0182|Cantharellus cibarius|Edible|Choice|-|Hutan , pegunungan , diantara rerumputan. Pada bulan juli – desember|Orange , kuning|sunken
+data0183|0183 - 0187|Cantharellus infundibuliformis(winter Chanterelle)|Edible|Choice|-|Hutan , pegunungan , diantara rerumputan. Pada bulan juli – desember|Coklat|Sunken
+data0188|0188 - 0200|Clitocybe (Infundibulicybe) geotropa (Trooping Funnel)|Edible|Edible|-|dataran berumput dimusin gugur|putih gading|Sunken
+data0201|0201 -0213|Coprinellus micaceus(Glistening Ink Cap)|Edible|Edible|-|tumbuh secara berkelompok di dekat batang kayu keras yang membusuk atau akar pohon bawah tanah|Coklat|Bell-Shaped
+data0214|0214 - 0220|Coprinus comatus(Shaggy Ink Caps)|Edible|Choice|-|tumbuh dihalaman berumput , disepanjang jalan berkerikil  dan daerah berlumpur|putih|bell-shaped or conical
+data0221|0221 - 0230|Craterellus cornucopioides(Horn of Plenty)|Edible|Choice|-|tumbuh di kayu , pohon beech , oak dari bulan juni - november|Hitam|Sunken
+data0231|0231 - 0244|Fistulina hepatica(Beefsteak Fungus)|Edible|Edible|-|tumbuh di pohon oak dari bulan agustus sampai akhir musim gugur , bisa juga dijumpai pada batang pohon yang sudah mati|Merah|Flat
+data0245|0245 - 0255|Flammulina velutipes(Velvet Shank)|Edible|Choice|-|tumbuh pada tunggul pohon hackberry china , atau bisa dijumpai pada pohon lain seperti pohon murbei dan kesemek|Kuning Kecoklatan|Convex
+data0256|0256 - 0265|Gyroporus castaneus(Chestnut Bolete)|Edible|Edible|-|tumbuh pada pohon oak|Coklat|Convex or Flat
+data0266|0266 - 0276|Hygrocybe coccinea(Scarlet Hood)|Edible|Edible|-|Padang Rumput|Merah|Convex
+data0277|0277 - 0281|Hygrocybe nivea(Snowy Wax Cap)|Edible|Edible|-|padang rumput |Putih|Convex
+data0282|0282 - 0288|Hygrocybe punicea(Crimson Wax Cap)|Edible|Edible|-|Padang Rumput|Kuning Kemerahan|Convex
+data0289|0289 - 0293|Laccaria amethystina(Amethyst Deciever)|Edible|Edible|-|Hutan Konifera|Hitam|Convex
+data0294|0294 - 0301|Laccaria laccata(The Deceiver)|Edible|edible but not recommended|-|hutan di dataran rendah|orange|convex or flat
+data0302|0302 - 0307|Lactarius deliciosus(Saffron Milk Cap)|Edible|Choice|-|tumbuh dibawah pohon pinus|Peach,Orange Wortel|Sunken
+data0308|0308 - 0319|Laetiporus sulphureus(Chicken Of The Woods)|Edible|Choice|-|tumbuh dibatang / cabang pohon|Kuning|Flat
+data0320|0320 - 0328|Calvatia gigantea(Giant Puff Ball)|Edible|Edible|sebagai antiseptik , mengandung zat anti tumor | banyak dijumpai di padang rumput , ladang dan hutan pada akhir musim panas dan musim gugur|Putih|Bulat seperti Bola
+data0329|0329 - 0333|Leccinum scabrum(Brown Birch Bolete)|Edible|Edible|-|dapat dijumpai dimana saja|Coklat|Convex
+data0334|0334 - 0348|Lepiota rhacodes(Shaggy Parasol)|Edible|choice but not recommended|-|dapat dijumpai dimana saja|Putih |Convex
+data0349|0349 - 0357|clitocybe nuda(Wood Blewit)|Edible|Choice|-|Hutan|Ungu Muda|Convex or Knobbed
+data0358|0358 - 0368|Lycoperdon perlatum(Common Puffball)|Edible|Edible|sumber protein , karbohidrat , lemak dan beberapa nutrisi lainnya|ladang,kebun dan dipinggir jalan serta dataran berumput di hutan|Putih|Convex
+data0369|0369 - 0378|Morchella esculenta(Common Morel)|Edible|Choice|mengandung 32.7% protein 2.0% lemak , 17.6% serat dan 38% karbohidrat serta 9.7% zat kapur|biasanya ditemukan diawal musim semi , dihutan,kebun buah , halaman , kebun dan kadang-kadang pada daeerah yang baru terbakar|Coklat Tua|Conical
+data0379|0379 - 0388|Oudemansiella mucida(Porcelain Fungus)|Edible|Edible|-|tumbuh pada pohon beech , pada pohon yang mati serta pohon oak|Putih|Convex
+data0389|0389 - 0406|Piptoporus betulinus(Birch Polypore)|Edible|Edible|-|tumbuh pada pohon birch|Coklat|Flat
+data0407|0407 - 0431|Polyporus squamosus(Dryads Saddle)|Edible|Edible|-|tumbuh pada batang pohon seperti pohon beech , maple dan kenari|Coklat|Sunken
+data0432|0432 - 0445|Russula claroflava(Yellow Swamp Russula)|Edible|Choice|-|tumbuh ditempat tempat basah dibawah pohon birch|Kuning|Convex
+data0446|0446 - 0451|Russula parazurea(Powdery Brittlegill)|Edible|Edible|-|di samping jalan dan ditepi hutan pinus|abu-abu|Flat
+data0452|0452 - 0481|Russula virescens (Green Cracking Russula)|Edible|Choice|-|Hutan|Hijau Pucat|Convex or Flat
+data0482|0482 - 0494|Sparassis crispa(Cauliflower Fungus)|Edible|Choice|-|tumbuh diatas kayu|Kuning Pucat|Berbentuk Seperti bunga Kol
+data0495|0495 - 0517|Sarcoscypha coccinea(Scarlet Elf Cup)|Edible|inedible(tidak dapat dimakan)|-|tumbuh pada kayu yang busuk pada tanaman mawar,beech,oak|Merah|Berbentuk Seperti Cup
+data0518|0518 - 0521|Agaricus xanthodermus(Yellow Stainer)|Poisinous|Tidak Boleh Dimakan , Mematikan|-|tumbuh di hutan , halaman , dan kebun di musim gugur | Putih | Convex
+data0522|0522 - 0527|Agricus pilatianus|Poisinous|Tidak Boleh Dimakan , Mematikan|-|Hutan|Putih|Convex
+data0528|0528 - 0537|Amanita gemmata|Poisinous|Tidak Boleh Dimakan , Mematikan|-|hutan konifera , disepanjang jalan|Kuning Keemasan|Convex
+data0538|0538 - 0552|Amanita muscaria(Fly agaric)|Poisinous|Tidak Boleh Dimakan , Mematikan|-|hutan konifera|Merah|Convex
+data0553|0553 - 0566|Amanita pantherina(Panther Cap)|Poisinous|Tidak Boleh Dimakan , Mematikan|-|hutan konifera , padang rumput pada akhir musim panas dan musim gugur|Coklat|Flat
+data0567|0567 - 0570|Amanita Phalloides(Death Cap)|Poisinous|Tidak Boleh Dimakan , Mematikan|-|tumbuh dibawah pohon oak,beech , chestnut , dan pinus|Kuning Pucat|Convex or Flat
+data0571|0571 - 0573|Amanita virosa(Destroying angel)|Poisinous|Tidak Boleh Dimakan , Mematikan|-|tumbuh di hutan dan tanah berlumut di musim panas dan musim gugur|Putih|Convex or Flat
+data0574|0574 - 0579|Boletus satanoides|Poisinous|Tidak Boleh Dimakan , Mematikan|-|tumbuh dengan pohon oak|Putih Pucat|Convex
+data0580|0580 - 0594|Coprinopsis picacea(Magpie Fungus)|Poisinous|Tidak Boleh Dimakan , Mematikan|-|Hutan|Coklta|Conical
+data0595|0595 - 0605|Cortinarius rubellus(Deadly Web Cap)|Poisinous|Tidak Boleh Dimakan , Mematikan|-|hutan konifer|Coklat|Knobbed(Menonjol)
+data0606|0606 - 0617|Hypholoma fasciculare(Sulphur Tuft)|Poisinous|Tidak Boleh Dimakan , Mematikan|-|tumbuh pada kayu mati dari suatu pohon|Kuning Pucat|Convex
+data0618|0618 - 0639|Lactarius torminosus(Woolly Milk Cap)|Poisinous|Tidak Boleh Dimakan , Mematikan|-|tumbuh pada kayu mati dari suatu pohon|Peach , Orange Wortel|Sunken
+data0640|0640 - 0648|Leptonia incana|Poisinous|Tidak Boleh Dimakan , Mematikan|-|hutan , halaman berumput|Hijau|Convex
+data0649|0649 - 0662|Mycena pura(Lilac Bonnet)|Poisinous|Tidak Boleh Dimakan , Mematikan|-|hutan konifera|Ungu Muda|Conical
+data0663|0663 - 0671|Russula betularum|Poisinous|Tidak Boleh Dimakan , Mematikan|-|tumbuh ditempat tempat yang lembab di hutan pada awal musim panas dan awal musim gugur|Putih|Convex or Sunken
+data0672|0672 - 0687|Russula emetica(The Sickener)|Poisinous|Tidak Boleh Dimakan , Mematikan|-|tumbuh di kayu yang busuk , di daerah lembab seperti hutan konifera|Merah|Convex or Flat
+data0688|0688 - 0697|Scleroderma citrinum(Common Earth Ball)|Poisinous|Tidak Boleh Dimakan , Mematikan|-|tumbuh di hutan , dataran rendah dan wilayah dengan rumput dai musim gugur sampai musim dingin|Coklat Muda|Berbentuk seperti bola
+data0698|0698 - 0711|Stropharia aeruginosa(Verdigris Agaric)|Poisinous|Tidak Boleh Dimakan , Mematikan|-|tumbuh di halaman berumput dan hutan dari musim semi hingga musim gugur|Hijau|Convex
+Data0712|0712 - 0716|Agaricus Bisporus(the button mushroom)|Edible|Choice|-|tumbuh diladang dan daerah berumput setelah hujan , dari akhir musim semi sampai musim gugur , terutama tanah yang mengandung pupuk kandang|Putih|Convex
+data0717|0717 - 0727|Lycoperdon mammiforme|Edible|inedible(tidak dapat dimakan)|-|tumbuh ditanah berkapur |Coklat|Berbentuk Seperti Bola
+data0728|0728 - 0738|Leucocoprinus birnbaumii|Poisinous|inedible(tidak dapat dimakan)|-|dapat ditemukan di rumah kaca dan pot bunga|Kuning|Bell Shaped or Knobbed
+data0739|0739 - 0749|Lentinula edodes(shiitake)|Edible|Edible|1) obat penyakit saluran nafas   2) melancarkan sirkulasi darah   3) meredakan gangguna hati  4) memulihkan kelelahan dan meningkatkan energi|tumbuh berkelompok pada pohon yang mati | Coklat |Convex
+data0750|0750 - 0754|Marasmius elegans|Edible|inedible(tidak dapat dimakan)|-|tumbuh di kayu-kayu busuk , tanah berkomppos serta hutan eukaliptus|Jingga|Convex
+data0755|0755 - 0767|Marasmiellus candidus|Edible|inedible(tidak dapat dimakan)|-|tumbuh pada ranting-ranting yang jatuh , kompos|Putih|Convex
+data0768|0768 - 0775|Pleurotus ostreatus(Oyster Mushroom)|Edible|Edible|1) menurunkan kolestrol 2) anti bakterial dan anti tumor  3) pembunuh nematoda  4) penghasil enzim hidrolisis dan enzim oksidasi|batang - batang pohon (biasanya dekat pangkal)|putih , krem , kekuningan|berbentuk seperti cangkang tiram
+data0776|0776 - 0781|Volvariella volvacea(Straw mushroom)|Edible|Edible|1) mencegah penggumpalan darah  2) meningkatkan imun  3) menurunkan kolestrol  4) mencegah gangguan hati dan pencernaan|rerumputan , kompos , tanah subur|coklat kehitaman|Bell Shaped
+data0782|0782 - 0790|Phaeomarasmius erinaceus|Edible|inedible(tidak dapat dimakan)|-|batang - batang pohon (biasanya dekat pangkal)|Orange|Convex
+data0791|0791 - 0802|Favolaschia calocera|Edible|inedible(tidak dapat dimakan)|batang - batang pohon (biasanya dekat pangkal)|Orange|Flat , Berlubang
+data0803|0803 - 0809|Marasmius haematocephalus|Edible|inedible(tidak dapat dimakan)|batang - batang pohon (biasanya dekat pangkal)|Pink|Bulat Bergelombang
+data0810|0810 - 0814|Pleurotus citrinopileatus|Edible|Edible|1) antioksidan  2) Menurunkan Gula darah 3) menurunkan kolestrol|batang - batang pohon (biasanya dekat pangkal)|Kuning|berbentuk seperti cangkang tiram
+data0815|0815 - 0821|Volvariella speciosa|Edible|Edible|-|rerumputan , kompos , tanah subur|Putih|Bell Shaped
+data0822|0822 - 0826|Pluteus cervinus|Edible|Edible|-|serbuk kayu , kayu-kayu busuk|Coklat Keabuan|Convex
+data0827|0827 - 0834|Cortinarius archeri|Edible|inedible(tidak dapat dimakan)|-|hutan eukaliptus|Ungu|Convex
+data0835|0835 - 0841|Entoloma hochstetteri|Edible|inedible(tidak dapat dimakan)|-|hutan nothofagus atau podocarpus|Biru|Convex
+data0842|0842 - 0855|Gliophorus psittacinus|Edible|Edible|-|rerumputan , belukar|Hijau|Conical
+data0856|0856 - 0860|Hygrocybe conica|Edible|inedible(tidak dapat dimakan)|-|rerumputan , bawah pepohonan (redwood atau cemara)|kuning kemerahan|Conical
+data0861|0861 - 0871|Guepinia helvelloides|Edible|inedible(tidak dapat dimakan)|-|kayu busuk , bawah pepohonan (redwood atau cemara )|merah jambu|berbentuk seperti daun telinga
+data0872|0872 - 0879|Ganoderma applanatum|Edible|inedible(tidak dapat dimakan)|-|pangkal pepohonan|Coklat|Flat
+data0880|0880 - 0899|Ganoderma lucidum(lingzhi mushroom)|Edible|Edible|1) melawan sel kanker  2) meningkatkan stamina dan imun 3) menormalkan tekanan darah 4) mencegah dan mengobati berbagai penyakit 5) menurunkan lemak 6) menurunkan kolestrol dan gula darah|akar pohon yang sedang gugur daun (musiman)|Coklat Kemerahan|Flat
+data0900|0900 - 0916|Microporus xanthopus|Edible|inedible(tidak dapat dimakan)|-|pepohonan yang mati , ranting jatuh , hutan hujan dekat pantai|Coklat|Sunken
+data0917|0917 - 0925|Lycoperdon pyriforme|Edible|Choice|-|batang - batang pohon (biasanya dekat pangkal)|Coklat|Berbentuk Seperti Bola
+data0926|0926 - 0938|Ramaria flava|Edible|Edible|-|padang rumput |Krem|berbentuk seperti coral
+data0939|Lactarius volemus|Edible|Choice|-|padang rumput , tempat-tempat yang lembap|Coklat|Sunken
+data0945|0945 - 0949|Boletus Aereus|Edible|Choice|-|tumbuh pada berbagai pohon berdaun lebar seperti oak , strowberry dan beech|Hitam|Convex
+data0950|0950 - 0968|Trametes versicolor(turkey tail)|Edible|edible but unpalatable(tak enak)|-|batang pohon besar|Multicolor|Flat
+data0969|0969 - 0988 | Schizophyllum commune|Edible|Choice|-|batang pohon besar|Putih Tulang|Bergaris-Garis
+data989|0989 - 1001|Geastrum saccatum|Edible|inedible(tidak dapat dimakan)|-|Hutan|Coklat|memiliki bagian seperti puffbal
+data1002|1002 - 1005|Geastrum episcopale|Edible|inedible(tidak dapat dimakan)|-|Hutan|Ungu|memiliki bagian seperti puffbal
+data1006|1006 - 1019|favolaschia pustulosa|Edible|inedible(tidak dapat dimakan)|-|Hutan|Putih|berbentuk seperti tiram yang berlubang
