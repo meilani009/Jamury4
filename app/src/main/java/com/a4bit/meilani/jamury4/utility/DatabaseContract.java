@@ -8,6 +8,7 @@ import android.provider.BaseColumns;
 
 public class DatabaseContract {
     public static String TABLE_JAMURY = "table_jamury";
+    public static String TABLE_WARNA = "table_warna";
 
     static final class DictionaryColumns implements BaseColumns {
         static String IMG_NAME = "imgName";
@@ -19,5 +20,9 @@ public class DatabaseContract {
         static String HABITAT = "habitat";
         static String COLOR = "color";
         static String CAP_SHAPE = "capShape";
+    }
+
+    static final class WarnaColumns implements BaseColumns{
+        static String EKS_WARNA = "eksWarna";
     }
 }

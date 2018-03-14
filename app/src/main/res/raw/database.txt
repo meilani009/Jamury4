@@ -22,7 +22,7 @@ data0162|0162 - 0170|Chalciporus piperatus (Peppery Bolete)|Edible|edible but un
 data0171|0171 - 0182|Cantharellus cibarius|Edible|Choice|-|Hutan , pegunungan , diantara rerumputan. Pada bulan juli – desember|Orange , kuning|sunken
 data0183|0183 - 0187|Cantharellus infundibuliformis(winter Chanterelle)|Edible|Choice|-|Hutan , pegunungan , diantara rerumputan. Pada bulan juli – desember|Coklat|Sunken
 data0188|0188 - 0200|Clitocybe (Infundibulicybe) geotropa (Trooping Funnel)|Edible|Edible|-|dataran berumput dimusin gugur|putih gading|Sunken
-data0201|0201 -0213|Coprinellus micaceus(Glistening Ink Cap)|Edible|Edible|-|tumbuh secara berkelompok di dekat batang kayu keras yang membusuk atau akar pohon bawah tanah|Coklat|Bell-Shaped
+data0201|0201 - 0213|Coprinellus micaceus(Glistening Ink Cap)|Edible|Edible|-|tumbuh secara berkelompok di dekat batang kayu keras yang membusuk atau akar pohon bawah tanah|Coklat|Bell-Shaped
 data0214|0214 - 0220|Coprinus comatus(Shaggy Ink Caps)|Edible|Choice|-|tumbuh dihalaman berumput , disepanjang jalan berkerikil  dan daerah berlumpur|putih|bell-shaped or conical
 data0221|0221 - 0230|Craterellus cornucopioides(Horn of Plenty)|Edible|Choice|-|tumbuh di kayu , pohon beech , oak dari bulan juni - november|Hitam|Sunken
 data0231|0231 - 0244|Fistulina hepatica(Beefsteak Fungus)|Edible|Edible|-|tumbuh di pohon oak dari bulan agustus sampai akhir musim gugur , bisa juga dijumpai pada batang pohon yang sudah mati|Merah|Flat
@@ -76,9 +76,9 @@ data0755|0755 - 0767|Marasmiellus candidus|Edible|inedible(tidak dapat dimakan)|
 data0768|0768 - 0775|Pleurotus ostreatus(Oyster Mushroom)|Edible|Edible|1) menurunkan kolestrol 2) anti bakterial dan anti tumor  3) pembunuh nematoda  4) penghasil enzim hidrolisis dan enzim oksidasi|batang - batang pohon (biasanya dekat pangkal)|putih , krem , kekuningan|berbentuk seperti cangkang tiram
 data0776|0776 - 0781|Volvariella volvacea(Straw mushroom)|Edible|Edible|1) mencegah penggumpalan darah  2) meningkatkan imun  3) menurunkan kolestrol  4) mencegah gangguan hati dan pencernaan|rerumputan , kompos , tanah subur|coklat kehitaman|Bell Shaped
 data0782|0782 - 0790|Phaeomarasmius erinaceus|Edible|inedible(tidak dapat dimakan)|-|batang - batang pohon (biasanya dekat pangkal)|Orange|Convex
-data0791|0791 - 0802|Favolaschia calocera|Edible|inedible(tidak dapat dimakan)|batang - batang pohon (biasanya dekat pangkal)|Orange|Flat , Berlubang
-data0803|0803 - 0809|Marasmius haematocephalus|Edible|inedible(tidak dapat dimakan)|batang - batang pohon (biasanya dekat pangkal)|Pink|Bulat Bergelombang
-data0810|0810 - 0814|Pleurotus citrinopileatus|Edible|Edible|1) antioksidan  2) Menurunkan Gula darah 3) menurunkan kolestrol|batang - batang pohon (biasanya dekat pangkal)|Kuning|berbentuk seperti cangkang tiram
+data0791|0791 - 0802|Favolaschia calocera|Edible|inedible(tidak dapat dimakan)|-|batang - batang pohon (biasanya dekat pangkal)|Orange|Flat , Berlubang
+data0803|0803 - 0809|Marasmius haematocephalus|Edible|inedible(tidak dapat dimakan)|-|batang - batang pohon (biasanya dekat pangkal)|Pink|Bulat Bergelombang
+data0810|0810 - 0814|Pleurotus citrinopileatus|Edible|Edible|-|1) antioksidan  2) Menurunkan Gula darah 3) menurunkan kolestrol|batang - batang pohon (biasanya dekat pangkal)|Kuning|berbentuk seperti cangkang tiram
 data0815|0815 - 0821|Volvariella speciosa|Edible|Edible|-|rerumputan , kompos , tanah subur|Putih|Bell Shaped
 data0822|0822 - 0826|Pluteus cervinus|Edible|Edible|-|serbuk kayu , kayu-kayu busuk|Coklat Keabuan|Convex
 data0827|0827 - 0834|Cortinarius archeri|Edible|inedible(tidak dapat dimakan)|-|hutan eukaliptus|Ungu|Convex
@@ -87,14 +87,14 @@ data0842|0842 - 0855|Gliophorus psittacinus|Edible|Edible|-|rerumputan , belukar
 data0856|0856 - 0860|Hygrocybe conica|Edible|inedible(tidak dapat dimakan)|-|rerumputan , bawah pepohonan (redwood atau cemara)|kuning kemerahan|Conical
 data0861|0861 - 0871|Guepinia helvelloides|Edible|inedible(tidak dapat dimakan)|-|kayu busuk , bawah pepohonan (redwood atau cemara )|merah jambu|berbentuk seperti daun telinga
 data0872|0872 - 0879|Ganoderma applanatum|Edible|inedible(tidak dapat dimakan)|-|pangkal pepohonan|Coklat|Flat
-data0880|0880 - 0899|Ganoderma lucidum(lingzhi mushroom)|Edible|Edible|1) melawan sel kanker  2) meningkatkan stamina dan imun 3) menormalkan tekanan darah 4) mencegah dan mengobati berbagai penyakit 5) menurunkan lemak 6) menurunkan kolestrol dan gula darah|akar pohon yang sedang gugur daun (musiman)|Coklat Kemerahan|Flat
+data0880|0880 - 0899|Ganoderma lucidum(lingzhi mushroom)|Edible|Edible|-|1) melawan sel kanker  2) meningkatkan stamina dan imun 3) menormalkan tekanan darah 4) mencegah dan mengobati berbagai penyakit 5) menurunkan lemak 6) menurunkan kolestrol dan gula darah|akar pohon yang sedang gugur daun (musiman)|Coklat Kemerahan|Flat
 data0900|0900 - 0916|Microporus xanthopus|Edible|inedible(tidak dapat dimakan)|-|pepohonan yang mati , ranting jatuh , hutan hujan dekat pantai|Coklat|Sunken
 data0917|0917 - 0925|Lycoperdon pyriforme|Edible|Choice|-|batang - batang pohon (biasanya dekat pangkal)|Coklat|Berbentuk Seperti Bola
 data0926|0926 - 0938|Ramaria flava|Edible|Edible|-|padang rumput |Krem|berbentuk seperti coral
-data0939|Lactarius volemus|Edible|Choice|-|padang rumput , tempat-tempat yang lembap|Coklat|Sunken
+data0939|0939 - 0944|Lactarius volemus|Edible|Choice|-|padang rumput , tempat-tempat yang lembap|Coklat|Sunken
 data0945|0945 - 0949|Boletus Aereus|Edible|Choice|-|tumbuh pada berbagai pohon berdaun lebar seperti oak , strowberry dan beech|Hitam|Convex
 data0950|0950 - 0968|Trametes versicolor(turkey tail)|Edible|edible but unpalatable(tak enak)|-|batang pohon besar|Multicolor|Flat
-data0969|0969 - 0988 | Schizophyllum commune|Edible|Choice|-|batang pohon besar|Putih Tulang|Bergaris-Garis
-data989|0989 - 1001|Geastrum saccatum|Edible|inedible(tidak dapat dimakan)|-|Hutan|Coklat|memiliki bagian seperti puffbal
+data0969|0969 - 0988|Schizophyllum commune|Edible|Choice|-|batang pohon besar|Putih Tulang|Bergaris-Garis
+data0989|0989 - 1001|Geastrum saccatum|Edible|inedible(tidak dapat dimakan)|-|Hutan|Coklat|memiliki bagian seperti puffbal
 data1002|1002 - 1005|Geastrum episcopale|Edible|inedible(tidak dapat dimakan)|-|Hutan|Ungu|memiliki bagian seperti puffbal
 data1006|1006 - 1019|favolaschia pustulosa|Edible|inedible(tidak dapat dimakan)|-|Hutan|Putih|berbentuk seperti tiram yang berlubang

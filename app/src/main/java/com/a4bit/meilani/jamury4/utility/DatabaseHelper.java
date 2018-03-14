@@ -15,7 +15,9 @@ import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColum
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.RANGE;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.STATUS;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.USABILITY;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.WarnaColumns.EKS_WARNA;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_JAMURY;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WARNA;
 
 /**
  * Created by root on 2/23/18.
@@ -37,6 +39,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLOR + " text not null, "+
             CAP_SHAPE + " text not null);";
 
+    public static String CREATE_TABLE_WARNA = "create table" + TABLE_WARNA + " (" + _ID + "integer primary key autoincrement, " +
+            EKS_WARNA + "double not null";
+
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -44,12 +49,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_JAMURY);
+        db.execSQL(CREATE_TABLE_WARNA);
         Log.d("loggy", CREATE_TABLE_JAMURY);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_JAMURY);
+        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_WARNA);
         onCreate(db);
     }
 }
