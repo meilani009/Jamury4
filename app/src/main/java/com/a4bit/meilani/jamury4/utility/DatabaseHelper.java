@@ -39,8 +39,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             COLOR + " text not null, "+
             CAP_SHAPE + " text not null);";
 
-    public static String CREATE_TABLE_WARNA = "create table" + TABLE_WARNA + " (" + _ID + "integer primary key autoincrement, " +
-            EKS_WARNA + "double not null";
+    public static String CREATE_TABLE_WARNA = "create table " + TABLE_WARNA + " (" + _ID + " integer primary key autoincrement, " +
+            EKS_WARNA + " text not null);";
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

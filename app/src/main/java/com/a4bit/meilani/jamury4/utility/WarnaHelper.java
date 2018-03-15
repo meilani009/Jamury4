@@ -46,7 +46,7 @@ public class WarnaHelper {
             do{
                 warnaModel = new WarnaModel();
                 warnaModel.setId(cursor.getInt(cursor.getColumnIndexOrThrow(_ID)));
-                warnaModel.setEks_warna(cursor.getDouble(cursor.getColumnIndexOrThrow(EKS_WARNA)));
+                warnaModel.setEks_warna(cursor.getString(cursor.getColumnIndexOrThrow(EKS_WARNA)));
 
                 arrayList.add(warnaModel);
                 cursor.moveToNext();
@@ -67,7 +67,7 @@ public class WarnaHelper {
         db.beginTransaction();
     }
 
-    public void setTransaction(){
+    public void setTransactionSuccess(){
         db.setTransactionSuccessful();
     }
 
@@ -76,15 +76,16 @@ public class WarnaHelper {
     }
 
     public void insertTransaction(String tableName, WarnaModel warnaModel){
-        String sql = "INSERT INTO" + tableName + " ("+EKS_WARNA +") VALUES (?)";
+        String sql = "INSERT INTO " + tableName + " ("+EKS_WARNA +") VALUES (?)";
 
         SQLiteStatement stmt = db.compileStatement(sql);
-        stmt.bindDouble(1,warnaModel.getEks_warna());
+        stmt.bindString(1,warnaModel.getEks_warna());
 
         stmt.execute();
         stmt.clearBindings();
 
         Log.d("loggy",sql);
+        Log.d("loggy",warnaModel.getEks_warna());
 
     }
 

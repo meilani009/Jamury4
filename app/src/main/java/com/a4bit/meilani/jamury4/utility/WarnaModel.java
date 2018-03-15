@@ -9,7 +9,7 @@ import android.os.Parcelable;
 
 public class WarnaModel implements Parcelable {
     private int id;
-    private double eks_warna;
+    private String eks_warna;
 
     public int getId() {
         return id;
@@ -19,15 +19,19 @@ public class WarnaModel implements Parcelable {
         this.id = id;
     }
 
-    public double getEks_warna() {
+    public String getEks_warna() {
         return eks_warna;
     }
 
-    public void setEks_warna(double eks_warna) {
+    public void setEks_warna(String eks_warna) {
         this.eks_warna = eks_warna;
     }
 
     public WarnaModel() {
+    }
+
+    public WarnaModel(String eks_warna){
+        this.eks_warna = eks_warna;
     }
 
 
@@ -39,12 +43,12 @@ public class WarnaModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
-        dest.writeDouble(this.eks_warna);
+        dest.writeString(this.eks_warna);
     }
 
-    protected WarnaModel(Parcel in) {
+    public WarnaModel(Parcel in) {
         this.id = in.readInt();
-        this.eks_warna = in.readDouble();
+        this.eks_warna = in.readString();
     }
 
     public static final Parcelable.Creator<WarnaModel> CREATOR = new Creator<WarnaModel>() {
@@ -59,7 +63,7 @@ public class WarnaModel implements Parcelable {
         }
     };
 
-    public WarnaModel(int id, Double eks_warna) {
+    public WarnaModel(int id, String eks_warna) {
         this.id = id;
         this.eks_warna = eks_warna;
     }

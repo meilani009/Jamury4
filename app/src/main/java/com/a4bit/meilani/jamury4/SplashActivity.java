@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.a4bit.meilani.jamury4.utility.AppPreference;
 import com.a4bit.meilani.jamury4.utility.JamurHelper;
 import com.a4bit.meilani.jamury4.utility.JamurModel;
+import com.a4bit.meilani.jamury4.utility.WarnaHelper;
+import com.a4bit.meilani.jamury4.utility.WarnaModel;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -28,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_JAMURY;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WARNA;
 
 /**
  * Created by Meilani Wulandari on 20-Jan-18.
@@ -54,7 +57,7 @@ public class SplashActivity extends Activity {
 //            }
 //        },3000);
 
-        new LoadData(TABLE_JAMURY).execute();
+        new LoadData(TABLE_JAMURY, TABLE_WARNA).execute();
     }
 
     private class LoadData extends AsyncTask<Void, Integer, Void>{
@@ -62,12 +65,15 @@ public class SplashActivity extends Activity {
         JamurHelper jamurHelper;
         AppPreference appPreference;
 
-        String tableJamur;
+        WarnaHelper warnaHelper;
+
+        String tableJamur,tableWarna;
         double progress;
         double maxprogress = 100;
 
-        public LoadData(String tableJamur){
+        public LoadData(String tableJamur, String tableWarna){
             this.tableJamur = tableJamur;
+            this.tableWarna = tableWarna;
         }
 
         @Override
@@ -75,15 +81,17 @@ public class SplashActivity extends Activity {
             Boolean firstRun = appPreference.getFirstRun();
             if(firstRun){
                 ArrayList<JamurModel> jamurModels = preLoadRaw();
+                ArrayList<WarnaModel> warnaModels = preLoadColorEks();
 
-                jamurHelper.open();
 
                 progress = 30;
                 publishProgress((int)progress);
                 Double progressMaxInsert = 80.0;
-                Double progressDiff = (progressMaxInsert - progress) / (jamurModels.size() + jamurModels.size());
+                Double progressDiff = (progressMaxInsert - progress) / (jamurModels.size() + warnaModels.size());
 
+                jamurHelper.open();
                 jamurHelper.beginTransaction();
+
 
                 try {
                     for (JamurModel model : jamurModels) {
@@ -100,6 +108,29 @@ public class SplashActivity extends Activity {
                 jamurHelper.endTransaction();
 
                 jamurHelper.close();
+
+                warnaHelper.open();
+                warnaHelper.beginTransaction();
+
+                try {
+                    for (WarnaModel model : warnaModels){
+                        warnaHelper.insertTransaction(tableWarna,model);
+//                        progress+=progressDiff;
+//                        publishProgress((int)progress);
+                        Log.d("loggy","insert ekstraksi success");
+                    }
+                    warnaHelper.setTransactionSuccess();
+                }catch (Exception e){
+                    Log.e(TAG , "color err insert transaction");
+                    Log.e(TAG , e.toString());
+                    e.printStackTrace();
+
+                }
+
+                warnaHelper.endTransaction();
+
+                warnaHelper.close();
+
                 appPreference.setFirstRun(false);
                 publishProgress((int)maxprogress);
             } else {
@@ -122,6 +153,7 @@ public class SplashActivity extends Activity {
         @Override
         protected void onPreExecute(){
             jamurHelper = new JamurHelper(SplashActivity.this);
+            warnaHelper = new WarnaHelper(SplashActivity.this);
             appPreference = new AppPreference(SplashActivity.this);
             if(appPreference.getFirstRun())
                 txt_progress.setVisibility(View.VISIBLE);
@@ -169,6 +201,34 @@ public class SplashActivity extends Activity {
             e.printStackTrace();
         }
         return jamurModels;
+    }
+
+    public ArrayList<WarnaModel> preLoadColorEks(){
+        ArrayList<WarnaModel> warnaModels = new ArrayList<>();
+        String line = null;
+        BufferedReader reader2;
+        try{
+            Resources res = getResources();
+            InputStream color_eks;
+
+            color_eks = res.openRawResource(R.raw.combined);
+
+            reader2 = new BufferedReader(new InputStreamReader(color_eks));
+            int count =0;
+            do{
+                line = reader2.readLine();
+                WarnaModel warnaModel;
+                warnaModel = new WarnaModel(line);
+
+                warnaModels.add(warnaModel);
+
+                count++;
+
+            }while (line!=null);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return warnaModels;
     }
 }
 
