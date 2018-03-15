@@ -21,6 +21,8 @@ import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColum
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.STATUS;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.USABILITY;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_JAMURY;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WARNA;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.WarnaColumns.EKS_WARNA;
 
 /**
  * Created by root on 2/23/18.
@@ -116,5 +118,38 @@ public class JamurHelper {
         stmt.clearBindings();
 
         Log.d("loggy", sql);
+    }
+
+    public ArrayList<WarnaModel> getAllWarna(){
+        Cursor cursor = db.query(TABLE_WARNA,null,null,null,null,null,_ID + " ASC",null);
+        cursor.moveToFirst();
+        ArrayList<WarnaModel> arrayList = new ArrayList<>();
+        WarnaModel warnaModel;
+        if(cursor.getCount()>0){
+            do{
+                warnaModel = new WarnaModel();
+                warnaModel.setId(cursor.getInt(cursor.getColumnIndexOrThrow(_ID)));
+                warnaModel.setEks_warna(cursor.getString(cursor.getColumnIndexOrThrow(EKS_WARNA)));
+
+                arrayList.add(warnaModel);
+                cursor.moveToNext();
+            }while (!cursor.isAfterLast());
+        }
+        cursor.close();
+        return arrayList;
+    }
+
+    public void insertTransaction(String tableName, WarnaModel warnaModel){
+        String sql = "INSERT INTO " + tableName + " ("+EKS_WARNA +") VALUES (?)";
+
+        SQLiteStatement stmt = db.compileStatement(sql);
+        stmt.bindString(1,warnaModel.getEks_warna());
+
+        stmt.execute();
+        stmt.clearBindings();
+
+        Log.d("loggy",sql);
+        Log.d("loggy",warnaModel.getEks_warna());
+
     }
 }

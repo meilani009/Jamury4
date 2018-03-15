@@ -1,6 +1,7 @@
 package com.a4bit.meilani.jamury4;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import butterknife.ButterKnife;
  */
 
 public class CardViewJamurAdapter extends RecyclerView.Adapter<CardViewJamurAdapter.CardViewViewHolder> {
+
+    public static final String EXTRA_JAMUR ="extra_jamur";
     private ArrayList<JamurModel> listJamur;
     private Context context;
 
@@ -76,6 +79,17 @@ public class CardViewJamurAdapter extends RecyclerView.Adapter<CardViewJamurAdap
         CardViewViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, JamurDetailActivity.class);
+                    int posisi = getAdapterPosition();
+                    intent.putExtra(EXTRA_JAMUR, listJamur.get(posisi));
+                    context.startActivity(intent);
+
+                }
+            });
         }
     }
 }

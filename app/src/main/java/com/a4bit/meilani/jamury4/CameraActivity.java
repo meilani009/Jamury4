@@ -22,6 +22,9 @@ import java.util.Arrays;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import ALI.ImageLib;
+import ALI.VectorLib;
+
 /**
  * Created by Meilani Wulandari on 20-Jan-18.
  */
@@ -83,9 +86,18 @@ public class CameraActivity extends AppCompatActivity{
 
         eksBtn = (Button) findViewById(R.id.eksBtn);
         eksBtn.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View view) {
 
+                VectorLib vlib = new VectorLib();
+                ImageLib imgsearch = new ImageLib();
+                double[] cvq=null;
+
+                //rgb_colors = imgsearch.getRGB(img);
+
+                //cvq = imgsearch.ColorFeatureExtraction(rgb_colors);
             }
         });
     }

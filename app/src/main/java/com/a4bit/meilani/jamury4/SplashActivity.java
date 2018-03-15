@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.a4bit.meilani.jamury4.utility.AppPreference;
 import com.a4bit.meilani.jamury4.utility.JamurHelper;
 import com.a4bit.meilani.jamury4.utility.JamurModel;
-import com.a4bit.meilani.jamury4.utility.WarnaHelper;
 import com.a4bit.meilani.jamury4.utility.WarnaModel;
 
 import java.io.BufferedReader;
@@ -65,8 +64,6 @@ public class SplashActivity extends Activity {
         JamurHelper jamurHelper;
         AppPreference appPreference;
 
-        WarnaHelper warnaHelper;
-
         String tableJamur,tableWarna;
         double progress;
         double maxprogress = 100;
@@ -101,35 +98,22 @@ public class SplashActivity extends Activity {
                         Log.d("loggy", "insert success");
                     }
 
+                    for (WarnaModel model : warnaModels){
+                        jamurHelper.insertTransaction(tableWarna,model);
+//                        progress+=progressDiff;
+//                        publishProgress((int)progress);
+                        Log.d("loggy","insert ekstraksi success");
+                    }
+
                     jamurHelper.setTransactionSuccess();
                 }catch(Exception e){
                     Log.e(TAG, "dict err insertTransaction");
+                    Log.e(TAG, e.toString());
                 }
                 jamurHelper.endTransaction();
 
                 jamurHelper.close();
 
-                warnaHelper.open();
-                warnaHelper.beginTransaction();
-
-                try {
-                    for (WarnaModel model : warnaModels){
-                        warnaHelper.insertTransaction(tableWarna,model);
-//                        progress+=progressDiff;
-//                        publishProgress((int)progress);
-                        Log.d("loggy","insert ekstraksi success");
-                    }
-                    warnaHelper.setTransactionSuccess();
-                }catch (Exception e){
-                    Log.e(TAG , "color err insert transaction");
-                    Log.e(TAG , e.toString());
-                    e.printStackTrace();
-
-                }
-
-                warnaHelper.endTransaction();
-
-                warnaHelper.close();
 
                 appPreference.setFirstRun(false);
                 publishProgress((int)maxprogress);
@@ -153,7 +137,6 @@ public class SplashActivity extends Activity {
         @Override
         protected void onPreExecute(){
             jamurHelper = new JamurHelper(SplashActivity.this);
-            warnaHelper = new WarnaHelper(SplashActivity.this);
             appPreference = new AppPreference(SplashActivity.this);
             if(appPreference.getFirstRun())
                 txt_progress.setVisibility(View.VISIBLE);
@@ -217,15 +200,19 @@ public class SplashActivity extends Activity {
             int count =0;
             do{
                 line = reader2.readLine();
-                WarnaModel warnaModel;
-                warnaModel = new WarnaModel(line);
+                if(line!=null) {
+                    Log.d("colourr", line);
+                    WarnaModel warnaModel;
+                    warnaModel = new WarnaModel(line);
 
-                warnaModels.add(warnaModel);
+                    warnaModels.add(warnaModel);
 
-                count++;
+                    count++;
+                }
 
             }while (line!=null);
         } catch (Exception e){
+            Log.d("colourrr", "apakah error");
             e.printStackTrace();
         }
         return warnaModels;

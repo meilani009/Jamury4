@@ -9,7 +9,9 @@ import android.widget.Button;
 
 import com.a4bit.meilani.jamury4.utility.JamurHelper;
 import com.a4bit.meilani.jamury4.utility.JamurModel;
+import com.a4bit.meilani.jamury4.utility.WarnaModel;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,5 +43,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        JamurHelper jh = new JamurHelper(this);
+        jh.open();
+        jh.beginTransaction();
+        ArrayList<WarnaModel> wm = jh.getAllWarna();
+        jh.endTransaction();
+        jh.close();
+
+        for(int i = 0; i<wm.size();i++){
+            Log.d("logwarna", "index " + (i+1) + ":" + wm.get(i).getEks_warna());
+        }
     }
 }
