@@ -44,15 +44,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        JamurHelper jh = new JamurHelper(this);
-        jh.open();
-        jh.beginTransaction();
-        ArrayList<WarnaModel> wm = jh.getAllWarna();
-        jh.endTransaction();
-        jh.close();
 
-        for(int i = 0; i<wm.size();i++){
-            Log.d("logwarna", "index " + (i+1) + ":" + wm.get(i).getEks_warna());
-        }
     }
 }

@@ -1,13 +1,16 @@
 package com.a4bit.meilani.jamury4;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,10 +18,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.a4bit.meilani.jamury4.utility.JamurHelper;
+import com.a4bit.meilani.jamury4.utility.WarnaModel;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -33,11 +40,26 @@ public class CameraActivity extends AppCompatActivity{
     ImageView quick_start_cropped_image;
     private Bitmap bitmap, bitmapCropped, medianBitmap, img;
     Button prepoBtn,eksBtn;
+    File file;
+    //String file_name;
+
+    ContextWrapper cw;
+    // path to /data/data/yourapp/app_data/imageDir
+    File directory;
+    // Create imageDir
+    File mypath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.crop_layout);
+
+        cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        mypath=new File(directory,"jamur.jpg");
+
 
         quick_start_cropped_image = (ImageView) findViewById(R.id.quick_start_cropped_image);
         prepoBtn = (Button) findViewById(R.id.prepoBtn);
@@ -81,10 +103,19 @@ public class CameraActivity extends AppCompatActivity{
 
 
                 quick_start_cropped_image.setImageBitmap(img);
+                try {
+                    saveImage(img,"jamurku");
+                    Log.d("gambar","berhasil");
+                }catch (Exception e){
+                    Log.d("gambar", e.toString());
+                }
+
+
             }
         });
 
         eksBtn = (Button) findViewById(R.id.eksBtn);
+
         eksBtn.setOnClickListener(new View.OnClickListener() {
 
 
@@ -94,10 +125,26 @@ public class CameraActivity extends AppCompatActivity{
                 VectorLib vlib = new VectorLib();
                 ImageLib imgsearch = new ImageLib();
                 double[] cvq=null;
+                int [][][] rgb_colors = null;
 
-                //rgb_colors = imgsearch.getRGB(img);
+                JamurHelper jamurHelper = new JamurHelper(getApplicationContext());
+                jamurHelper.open();
+                double[][] warnaDataset = jamurHelper.getAllWarna();
+                jamurHelper.close();
 
-                //cvq = imgsearch.ColorFeatureExtraction(rgb_colors);
+                try {
+                    Log.d("ekstrak", "x: " + warnaDataset.length + "|y:" + warnaDataset[0].length);
+
+                    rgb_colors = imgsearch.getRGB(file.getCanonicalPath());
+
+                    cvq = imgsearch.ColorFeatureExtraction(rgb_colors);
+                }catch(Exception e){
+                    Log.d("ekstrak", e.toString());
+                }
+
+
+
+
             }
         });
     }
@@ -141,6 +188,34 @@ public class CameraActivity extends AppCompatActivity{
         }
     }
 
+//    public String BitMapToString(Bitmap bitmap){
+//        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+//        byte [] arr=baos.toByteArray();
+//        String result=Base64.encodeToString(arr, Base64.DEFAULT);
+//        return result;
+//    }
+
+//    private String saveToInternalStorage(Bitmap bitmapImage){
+//
+//
+//        FileOutputStream fos = null;
+//        try {
+//            fos = new FileOutputStream(mypath);
+//            // Use the compress method on the BitMap object to write image to the OutputStream
+//            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                fos.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return directory.getAbsolutePath();
+//    }
+
 //    public String createImageFromBitmap(Bitmap bitmap) {
 //        String fileName = "GambarSementara";//no .png or .jpg needed
 //        try {
@@ -149,12 +224,36 @@ public class CameraActivity extends AppCompatActivity{
 //            FileOutputStream fo = openFileOutput(fileName, Context.MODE_PRIVATE);
 //            fo.write(bytes.toByteArray());
 //            fo.close();
+//            Log.d("gambarku","berhasil");
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //            fileName = null;
+//            Log.d("gambarku","gagal");
 //        }
 //        return fileName;
 //    }
+
+    private void saveImage(Bitmap finalBitmap, String image_name) {
+
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root);
+        myDir.mkdirs();
+        String fname = "Image-" + image_name+ ".jpg";
+        file = new File(myDir, fname);
+        if (file.exists()) file.delete();
+        Log.i("LOAD", root + fname);
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+            Log.d("imageku",file.getCanonicalPath());
+            Log.d("imageku","berhasil");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("imageku","gagal");
+        }
+    }
 
 
 }

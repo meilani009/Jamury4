@@ -120,23 +120,38 @@ public class JamurHelper {
         Log.d("loggy", sql);
     }
 
-    public ArrayList<WarnaModel> getAllWarna(){
+    public double[][] getAllWarna(){
+        Log.d("ekstrak", "mulai ambil warna");
         Cursor cursor = db.query(TABLE_WARNA,null,null,null,null,null,_ID + " ASC",null);
         cursor.moveToFirst();
-        ArrayList<WarnaModel> arrayList = new ArrayList<>();
+        int n = cursor.getCount();
+        Log.d("ekstrak", "total query: " +n);
+
+        double[][] warna= new double[n][];
         WarnaModel warnaModel;
         if(cursor.getCount()>0){
-            do{
-                warnaModel = new WarnaModel();
-                warnaModel.setId(cursor.getInt(cursor.getColumnIndexOrThrow(_ID)));
-                warnaModel.setEks_warna(cursor.getString(cursor.getColumnIndexOrThrow(EKS_WARNA)));
+            try {
+                int i = 0;
+                do {
+                    String temp = cursor.getString(cursor.getColumnIndexOrThrow(EKS_WARNA));
+                    String[] split = temp.split(",");
 
-                arrayList.add(warnaModel);
-                cursor.moveToNext();
-            }while (!cursor.isAfterLast());
+                    double[] tempD = new double[split.length];
+
+                    for (int j = 0; j < split.length; j++) {
+                        tempD[j] = Double.parseDouble(split[j]);
+                    }
+                    warna[i] = tempD;
+                    Log.d("ekstrak", "datake "+ i);
+                    cursor.moveToNext();
+                    i++;
+                } while (!cursor.isAfterLast());
+            }catch (Exception e){
+                Log.d("ekstrak", e.toString());
+            }
         }
         cursor.close();
-        return arrayList;
+        return warna;
     }
 
     public void insertTransaction(String tableName, WarnaModel warnaModel){
