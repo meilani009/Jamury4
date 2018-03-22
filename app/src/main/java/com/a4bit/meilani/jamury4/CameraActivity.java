@@ -1,5 +1,6 @@
 package com.a4bit.meilani.jamury4;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -135,9 +136,16 @@ public class CameraActivity extends AppCompatActivity{
                 try {
                     Log.d("ekstrak", "x: " + warnaDataset.length + "|y:" + warnaDataset[0].length);
 
-                    rgb_colors = imgsearch.getRGB(file.getCanonicalPath());
+                    Log.d("ekstrak","mulai get rgb");
+                    String letak = "/storage/emulated/0/Image-jamurku.jpg";
+                    rgb_colors = imgsearch.getRGB(letak);
 
-                    cvq = imgsearch.ColorFeatureExtraction(rgb_colors);
+                    //Log.d("ekstrak","ekstraksi dimulai");
+                  //  cvq = imgsearch.ColorFeatureExtraction(rgb_colors);
+                  //  imgsearch.RGB_to_CVQ_Image();
+
+                    //Log.d("ekstrak",cvq.toString());
+
                 }catch(Exception e){
                     Log.d("ekstrak", e.toString());
                 }
