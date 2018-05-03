@@ -34,8 +34,9 @@
         </activity>
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
         <activity android:name=".CameraActivity" />
-        <activity android:name=".MushroomListActivity"></activity>
-        <activity android:name=".JamurDetailActivity"></activity>
+        <activity android:name=".HasilActivity"/>
+        <activity android:name=".MushroomListActivity"/>
+        <activity android:name=".JamurDetailActivity"/>
     </application>
 
 </manifest>

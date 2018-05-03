@@ -142,7 +142,7 @@ public class JamurHelper {
                         tempD[j] = Double.parseDouble(split[j]);
                     }
                     warna[i] = tempD;
-                    Log.d("ekstrak", "datake "+ i);
+                    Log.d("ekstrak", "data ke "+ i);
                     cursor.moveToNext();
                     i++;
                 } while (!cursor.isAfterLast());

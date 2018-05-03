@@ -4,9 +4,13 @@ import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -18,14 +22,23 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.a4bit.meilani.jamury4.utility.JamurHelper;
+import com.a4bit.meilani.jamury4.utility.JamurModel;
 import com.a4bit.meilani.jamury4.utility.WarnaModel;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -33,15 +46,27 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import ALI.ImageLib;
 import ALI.VectorLib;
 
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageIO.*;
+
+import static com.a4bit.meilani.jamury4.CardViewJamurAdapter.EXTRA_JAMUR;
+import org.opencv.core.*;
+
+
 /**
  * Created by Meilani Wulandari on 20-Jan-18.
  */
 
 public class CameraActivity extends AppCompatActivity{
     ImageView quick_start_cropped_image;
-    private Bitmap bitmap, bitmapCropped, medianBitmap, img;
+    private Bitmap bitmap, bitmapCropped, medianBitmap, img,gg;
     Button prepoBtn,eksBtn;
     File file;
+    BufferedImage jmr = null;
+    BufferedImage gmbk=null;
+    Bitmap bmp;
+    //private Context context;
     //String file_name;
 
     ContextWrapper cw;
@@ -60,7 +85,6 @@ public class CameraActivity extends AppCompatActivity{
         directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
         mypath=new File(directory,"jamur.jpg");
-
 
         quick_start_cropped_image = (ImageView) findViewById(R.id.quick_start_cropped_image);
         prepoBtn = (Button) findViewById(R.id.prepoBtn);
@@ -107,6 +131,7 @@ public class CameraActivity extends AppCompatActivity{
                 try {
                     saveImage(img,"jamurku");
                     Log.d("gambar","berhasil");
+
                 }catch (Exception e){
                     Log.d("gambar", e.toString());
                 }
@@ -126,32 +151,66 @@ public class CameraActivity extends AppCompatActivity{
                 VectorLib vlib = new VectorLib();
                 ImageLib imgsearch = new ImageLib();
                 double[] cvq=null;
+                double [][] hasil=null;
+                double[] w1=null;
+
                 int [][][] rgb_colors = null;
 
                 JamurHelper jamurHelper = new JamurHelper(getApplicationContext());
                 jamurHelper.open();
                 double[][] warnaDataset = jamurHelper.getAllWarna();
+                ArrayList<JamurModel> jamurModels = jamurHelper.getAllData();
                 jamurHelper.close();
 
-                try {
                     Log.d("ekstrak", "x: " + warnaDataset.length + "|y:" + warnaDataset[0].length);
 
                     Log.d("ekstrak","mulai get rgb");
-                    String letak = "/storage/emulated/0/Image-jamurku.jpg";
-                    rgb_colors = imgsearch.getRGB(letak);
-
-                    //Log.d("ekstrak","ekstraksi dimulai");
-                  //  cvq = imgsearch.ColorFeatureExtraction(rgb_colors);
-                  //  imgsearch.RGB_to_CVQ_Image();
-
-                    //Log.d("ekstrak",cvq.toString());
-
-                }catch(Exception e){
-                    Log.d("ekstrak", e.toString());
-                }
+//
+//                    //yang bener nih/////////////////////////////////////////////////
+//
+//                    Bitmap kk = BitmapFactory.decodeFile(file.getCanonicalPath());
+//
+//                    ////////////////////////////////////////////////////////////////
 
 
+                    Log.d("rgb","mulai get RGB");
+                    rgb_colors = getRGB(file.getAbsolutePath()); //[256][256][3]
+                    Log.d("rgb",rgb_colors.toString());
 
+
+                    Log.d("rgb","ekstraksi dimulai");
+                    cvq = imgsearch.ColorFeatureExtraction(rgb_colors);
+                    Log.d("rgb","hasil ekstraksi :" + cvq);
+
+                    //loading color features
+
+                    //nyari hasil
+
+                    hasil = imgsearch.SimilarityMeasurement("cosine", cvq, warnaDataset);
+                    int similiarPosition = (int)hasil[1][hasil[1].length-1];
+
+                    for(int i = 0; i< hasil.length; i++){
+                        String temp = "";
+                        temp += ("hasil baris "+i + ": ");
+                        for(int j = 0; j < hasil[i].length; j++){
+                            temp+=(hasil[i][j] + " ");
+                        }
+                    }
+
+                    int posisi = 0;
+                    for(int i = 0 ; i< jamurModels.size(); i++){
+                        if(similiarPosition <= Integer.parseInt((jamurModels.get(i)).getRange())){
+                            posisi = i;
+                            break;
+                        }
+                    }
+
+//                    System.out.println("Cintaaaaa " + posisi);
+
+                    Intent intent = new Intent(CameraActivity.this, HasilActivity.class);
+                    intent.putExtra("CaptureImg", img);
+                    intent.putExtra(EXTRA_JAMUR, jamurModels.get(posisi));
+                    startActivity(intent);
 
             }
         });
@@ -196,72 +255,71 @@ public class CameraActivity extends AppCompatActivity{
         }
     }
 
-//    public String BitMapToString(Bitmap bitmap){
-//        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-//        byte [] arr=baos.toByteArray();
-//        String result=Base64.encodeToString(arr, Base64.DEFAULT);
-//        return result;
-//    }
 
-//    private String saveToInternalStorage(Bitmap bitmapImage){
-//
-//
-//        FileOutputStream fos = null;
-//        try {
-//            fos = new FileOutputStream(mypath);
-//            // Use the compress method on the BitMap object to write image to the OutputStream
-//            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//            try {
-//                fos.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return directory.getAbsolutePath();
-//    }
+    public void saveImage(Bitmap finalBitmap, String image_name) {
 
-//    public String createImageFromBitmap(Bitmap bitmap) {
-//        String fileName = "GambarSementara";//no .png or .jpg needed
-//        try {
-//            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-//            FileOutputStream fo = openFileOutput(fileName, Context.MODE_PRIVATE);
-//            fo.write(bytes.toByteArray());
-//            fo.close();
-//            Log.d("gambarku","berhasil");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            fileName = null;
-//            Log.d("gambarku","gagal");
-//        }
-//        return fileName;
-//    }
-
-    private void saveImage(Bitmap finalBitmap, String image_name) {
-
-        String root = Environment.getExternalStorageDirectory().toString();
+        String root = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Please";
         File myDir = new File(root);
-        myDir.mkdirs();
-        String fname = "Image-" + image_name+ ".jpg";
+        if (!myDir.mkdirs()){
+            myDir.mkdirs();
+        }
+        String fname = "Bismillah-" + image_name+ ".png";
         file = new File(myDir, fname);
-        if (file.exists()) file.delete();
+//        if (file.exists()) file.delete();
         Log.i("LOAD", root + fname);
         try {
             FileOutputStream out = new FileOutputStream(file);
-            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            finalBitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
             out.flush();
             out.close();
             Log.d("imageku",file.getCanonicalPath());
+            Log.d("imageku",file.getAbsolutePath());
+            Log.d("imageku",file.getPath());
             Log.d("imageku","berhasil");
+
+            //DEBUG
+
+            Log.d("Haha", "Hehe");
         } catch (Exception e) {
             e.printStackTrace();
             Log.d("imageku","gagal");
         }
     }
+
+
+    public int [][][] getRGB(String filename) {
+        Bitmap _img = null;
+
+        try{
+            _img = BitmapFactory.decodeFile(filename);
+        }catch (Exception e){
+            e.getMessage();
+        }
+
+        int _height = _img.getHeight();
+        int _width = _img.getWidth();
+
+        int [][][] _pixel_rgb_color = new int [_height][_width][3];
+
+        int _rgb;
+        int _rr,_gg,_bb;
+
+        for(int _hh = 0;_hh < _height;_hh++){
+            for(int _ww = 0;_ww < _width;_ww++){
+                _rgb = _img.getPixel(_ww,_hh);
+                _rr = (_rgb >> 16) & 0x000000FF;
+                _gg = (_rgb >> 8) & 0x000000FF;
+                _bb = (_rgb) & 0x000000FF;
+
+                _pixel_rgb_color[_hh][_ww][0] = _rr;
+                _pixel_rgb_color[_hh][_ww][1] = _gg;
+                _pixel_rgb_color[_hh][_ww][2] = _bb;
+
+            }
+        }
+        return _pixel_rgb_color;
+    }
+
 
 
 }
