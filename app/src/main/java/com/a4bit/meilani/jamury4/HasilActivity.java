@@ -49,7 +49,7 @@ public class HasilActivity  extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("Detail Jamur");
+        actionBar.setTitle("Hasil Identifikasi");
 
         gambar_camera.setImageBitmap(bmp_capture);
 

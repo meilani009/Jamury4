@@ -60,12 +60,10 @@ import org.opencv.core.*;
 
 public class CameraActivity extends AppCompatActivity{
     ImageView quick_start_cropped_image;
-    private Bitmap bitmap, bitmapCropped, medianBitmap, img,gg;
+    private Bitmap bitmap, bitmapCropped, medianBitmap, img,gg,resized;
     Button prepoBtn,eksBtn;
     File file;
-    BufferedImage jmr = null;
-    BufferedImage gmbk=null;
-    Bitmap bmp;
+
     //private Context context;
     //String file_name;
 
@@ -122,15 +120,16 @@ public class CameraActivity extends AppCompatActivity{
                 }
 
                 //resizing
-                Bitmap resized = Bitmap.createScaledBitmap(img, 320, 320, true);
+                resized = Bitmap.createScaledBitmap(img, 320, 320, true);
                 System.out.println(resized.getWidth());
                 System.out.println(resized.getHeight());
 
 
-                quick_start_cropped_image.setImageBitmap(img);
+                quick_start_cropped_image.setImageBitmap(resized);
                 try {
-                    saveImage(img,"jamurku");
-                    Log.d("gambar","berhasil");
+                    saveImage(resized,"jamurku");
+                    Log.d("gambar","berhasil , lebar : " + img.getWidth() + " tinggi :" + img.getHeight());
+                    Log.d("gambar","resized, lebar: "+ resized.getWidth() + "tinggi : " + resized.getHeight());
 
                 }catch (Exception e){
                     Log.d("gambar", e.toString());
@@ -162,9 +161,9 @@ public class CameraActivity extends AppCompatActivity{
                 ArrayList<JamurModel> jamurModels = jamurHelper.getAllData();
                 jamurHelper.close();
 
-                    Log.d("ekstrak", "x: " + warnaDataset.length + "|y:" + warnaDataset[0].length);
+                    Log.d("gambar", "x: " + warnaDataset.length + "|y:" + warnaDataset[0].length);
 
-                    Log.d("ekstrak","mulai get rgb");
+                    Log.d("gambar","mulai get rgb");
 //
 //                    //yang bener nih/////////////////////////////////////////////////
 //
@@ -175,7 +174,22 @@ public class CameraActivity extends AppCompatActivity{
 
                     Log.d("rgb","mulai get RGB");
                     rgb_colors = getRGB(file.getAbsolutePath()); //[256][256][3]
-                    Log.d("rgb",rgb_colors.toString());
+                    Log.d("gambar",rgb_colors.toString());
+
+                    for(int aa=0;aa < 256 ; aa++){
+                        String tem = "";
+                        for(int bb=0;bb< 256;bb++){
+
+                            for(int cc=0;cc< 3;cc++){
+
+                                tem+=rgb_colors[aa][bb][cc]+ " " ;
+
+
+                            }
+
+                        }
+                        Log.d("gambar" , "rgb : " + tem);
+                    }
 
 
                     Log.d("rgb","ekstraksi dimulai");
@@ -187,7 +201,11 @@ public class CameraActivity extends AppCompatActivity{
                     //nyari hasil
 
                     hasil = imgsearch.SimilarityMeasurement("cosine", cvq, warnaDataset);
-                    int similiarPosition = (int)hasil[1][hasil[1].length-1];
+                    int similiarPosition = (int)hasil[1][0];
+
+                    Log.d("gambar" , "similar position : " + similiarPosition);
+                    Log.d("gambar" , "hasil[0]" + hasil[0].length);
+                    Log.d("gambar" , "hasil[1]" + hasil[1].length);
 
                     for(int i = 0; i< hasil.length; i++){
                         String temp = "";
@@ -195,6 +213,8 @@ public class CameraActivity extends AppCompatActivity{
                         for(int j = 0; j < hasil[i].length; j++){
                             temp+=(hasil[i][j] + " ");
                         }
+
+                        Log.d("gambar", "hasil " + temp);
                     }
 
                     int posisi = 0;
@@ -204,6 +224,23 @@ public class CameraActivity extends AppCompatActivity{
                             break;
                         }
                     }
+
+                    //coba
+                int hasilquery[]=new int[hasil[0].length];
+                for(int j=0;j<hasil[0].length;j++) {
+                    hasilquery[j] = (int) hasil[1][j];
+                    String te = "";
+                    te+=hasilquery[j]+"";
+                    Log.d("gambar","hasil query :" + te);
+                }
+
+                vlib.view(hasilquery);
+                vlib.view(vlib.double_to_int(hasil[1]));
+
+
+
+
+                Log.d("gambar" , "posisi : " +posisi);
 
 //                    System.out.println("Cintaaaaa " + posisi);
 
