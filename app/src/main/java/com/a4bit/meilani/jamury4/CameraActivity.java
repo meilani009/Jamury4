@@ -17,6 +17,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.util.TimingLogger;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -172,33 +173,26 @@ public class CameraActivity extends AppCompatActivity{
 //                    ////////////////////////////////////////////////////////////////
 
 
+                Long tsRGB = System.nanoTime();
                     Log.d("rgb","mulai get RGB");
                     rgb_colors = getRGB(file.getAbsolutePath()); //[256][256][3]
-                    Log.d("gambar",rgb_colors.toString());
+                    Log.d("rgb",rgb_colors.toString());
+                Long teRGB = System.nanoTime();
+                Log.d("rgb","waktu get RGB :" + (teRGB-tsRGB)/0.000001 +"ms");
 
-                    for(int aa=0;aa < 256 ; aa++){
-                        String tem = "";
-                        for(int bb=0;bb< 256;bb++){
-
-                            for(int cc=0;cc< 3;cc++){
-
-                                tem+=rgb_colors[aa][bb][cc]+ " " ;
-
-
-                            }
-
-                        }
-                        Log.d("gambar" , "rgb : " + tem);
-                    }
-
-
+                Long tsCVQ = System.nanoTime();
                     Log.d("rgb","ekstraksi dimulai");
                     cvq = imgsearch.ColorFeatureExtraction(rgb_colors);
                     Log.d("rgb","hasil ekstraksi :" + cvq);
+                Long teCVQ = System.nanoTime();
+                Log.d("rgb","waktu get CVQ: " + (teCVQ-tsCVQ)/0.000001 +"ms");
+
+
 
                     //loading color features
 
                     //nyari hasil
+                Long tsCosine = System.nanoTime();
 
                     hasil = imgsearch.SimilarityMeasurement("cosine", cvq, warnaDataset);
                     int similiarPosition = (int)hasil[1][0];
@@ -225,22 +219,25 @@ public class CameraActivity extends AppCompatActivity{
                         }
                     }
 
-                    //coba
-                int hasilquery[]=new int[hasil[0].length];
-                for(int j=0;j<hasil[0].length;j++) {
-                    hasilquery[j] = (int) hasil[1][j];
-                    String te = "";
-                    te+=hasilquery[j]+"";
-                    Log.d("gambar","hasil query :" + te);
-                }
+                Long teCosine = System.nanoTime();
+                Log.d("rgb","waktu get Similarity: " + (teCosine-tsCosine)/0.000001 +"ms");
 
-                vlib.view(hasilquery);
-                vlib.view(vlib.double_to_int(hasil[1]));
+//                    //coba
+//                int hasilquery[]=new int[hasil[0].length];
+//                for(int j=0;j<hasil[0].length;j++) {
+//                    hasilquery[j] = (int) hasil[1][j];
+//                    String te = "";
+//                    te+=hasilquery[j]+"";
+//                    Log.d("gambar","hasil query :" + te);
+//                }
+//
+//                vlib.view(hasilquery);
+//                vlib.view(vlib.double_to_int(hasil[1]));
 
 
 
 
-                Log.d("gambar" , "posisi : " +posisi);
+//                Log.d("gambar" , "posisi : " +posisi);
 
 //                    System.out.println("Cintaaaaa " + posisi);
 
