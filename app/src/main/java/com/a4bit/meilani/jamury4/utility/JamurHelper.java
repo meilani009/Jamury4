@@ -11,6 +11,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import static android.provider.BaseColumns._ID;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.BentukColumns.EKS_BENTUK;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.CAP_SHAPE;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.COLOR;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.EDIBILITY;
@@ -20,6 +21,7 @@ import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColum
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.RANGE;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.STATUS;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.USABILITY;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_BENTUK;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_JAMURY;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WARNA;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.WarnaColumns.EKS_WARNA;
@@ -154,6 +156,40 @@ public class JamurHelper {
         return warna;
     }
 
+    public double[][] getAllBentuk(){
+        Log.d("ekstrak", "mulai ambil bentuk");
+        Cursor cursor = db.query(TABLE_BENTUK,null,null,null,null,null,_ID + " ASC",null);
+        cursor.moveToFirst();
+        int n = cursor.getCount();
+        Log.d("ekstrak", "total query: " +n);
+
+        double[][] bentuk= new double[n][];
+        BentukModel bentukModel;
+        if(cursor.getCount()>0){
+            try {
+                int i = 0;
+                do {
+                    String temp = cursor.getString(cursor.getColumnIndexOrThrow(EKS_BENTUK));
+                    String[] split = temp.split(",");
+
+                    double[] tempD = new double[split.length];
+
+                    for (int j = 0; j < split.length; j++) {
+                        tempD[j] = Double.parseDouble(split[j]);
+                    }
+                    bentuk[i] = tempD;
+                    Log.d("ekstrak", "data ke "+ i);
+                    cursor.moveToNext();
+                    i++;
+                } while (!cursor.isAfterLast());
+            }catch (Exception e){
+                Log.d("ekstrak", e.toString());
+            }
+        }
+        cursor.close();
+        return bentuk;
+    }
+
     public void insertTransaction(String tableName, WarnaModel warnaModel){
         String sql = "INSERT INTO " + tableName + " ("+EKS_WARNA +") VALUES (?)";
 
@@ -167,4 +203,19 @@ public class JamurHelper {
         Log.d("loggy",warnaModel.getEks_warna());
 
     }
+
+    public void insertTransaction(String tableName, BentukModel bentukModel){
+        String sql = "INSERT INTO " + tableName + " ("+EKS_BENTUK +") VALUES (?)";
+
+        SQLiteStatement stmt = db.compileStatement(sql);
+        stmt.bindString(1, bentukModel.getEks_bentuk());
+
+        stmt.execute();
+        stmt.clearBindings();
+
+        Log.d("loggy",sql);
+        Log.d("loggy", bentukModel.getEks_bentuk());
+
+    }
 }
+

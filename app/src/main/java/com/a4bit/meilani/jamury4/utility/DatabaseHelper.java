@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import static android.provider.BaseColumns._ID;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.BentukColumns.EKS_BENTUK;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.CAP_SHAPE;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.COLOR;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.EDIBILITY;
@@ -15,6 +16,7 @@ import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColum
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.RANGE;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.STATUS;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.USABILITY;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_BENTUK;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.WarnaColumns.EKS_WARNA;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_JAMURY;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WARNA;
@@ -42,6 +44,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String CREATE_TABLE_WARNA = "create table " + TABLE_WARNA + " (" + _ID + " integer primary key autoincrement, " +
             EKS_WARNA + " text not null);";
 
+    public static String CREATE_TABLE_BENTUK = "create table " + TABLE_BENTUK + " (" + _ID + " integer primary key autoincrement, " +
+            EKS_BENTUK + " text not null);";
+
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -50,6 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_JAMURY);
         db.execSQL(CREATE_TABLE_WARNA);
+        db.execSQL(CREATE_TABLE_BENTUK);
         Log.d("loggy", CREATE_TABLE_JAMURY);
     }
 
@@ -57,6 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_JAMURY);
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_WARNA);
+        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_BENTUK);
         onCreate(db);
     }
 }

@@ -9,6 +9,7 @@ import android.provider.BaseColumns;
 public class DatabaseContract {
     public static String TABLE_JAMURY = "table_jamury";
     public static String TABLE_WARNA = "table_warna";
+    public static String TABLE_BENTUK = "table_bentuk";
 
     static final class DictionaryColumns implements BaseColumns {
         static String IMG_NAME = "imgName";
@@ -24,5 +25,9 @@ public class DatabaseContract {
 
     static final class WarnaColumns implements BaseColumns{
         static String EKS_WARNA = "eksWarna";
+    }
+
+    static final class BentukColumns implements BaseColumns {
+        static String EKS_BENTUK = "eksBentuk";
     }
 }
