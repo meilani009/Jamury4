@@ -17,7 +17,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
-import android.util.TimingLogger;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,6 +36,7 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.a4bit.meilani.jamury4.utility.JamurHelper;
 import com.a4bit.meilani.jamury4.utility.JamurModel;
@@ -52,7 +52,12 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageIO.*;
 
 import static com.a4bit.meilani.jamury4.CardViewJamurAdapter.EXTRA_JAMUR;
+
+import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
 import org.opencv.core.*;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.imgproc.Moments;
 
 
 /**
@@ -60,18 +65,37 @@ import org.opencv.core.*;
  */
 
 public class CameraActivity extends AppCompatActivity{
+
+    static {
+        OpenCVLoader.initDebug();
+
+    }
     ImageView quick_start_cropped_image;
     private Bitmap bitmap, bitmapCropped, medianBitmap, img,gg,resized;
     Button prepoBtn,eksBtn;
     File file;
-    double[] momentResult;
+    BufferedImage jmr = null;
+    BufferedImage gmbk=null;
+    Bitmap bmp;
+    //private Context context;
+    //String file_name;
 
-
+    ContextWrapper cw;
+    // path to /data/data/yourapp/app_data/imageDir
+    File directory;
+    // Create imageDir
+    File mypath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.crop_layout);
+
+        cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        mypath=new File(directory,"jamur.jpg");
 
         quick_start_cropped_image = (ImageView) findViewById(R.id.quick_start_cropped_image);
         prepoBtn = (Button) findViewById(R.id.prepoBtn);
@@ -114,11 +138,10 @@ public class CameraActivity extends AppCompatActivity{
                 System.out.println(resized.getHeight());
 
 
-                quick_start_cropped_image.setImageBitmap(resized);
+                quick_start_cropped_image.setImageBitmap(img);
                 try {
-                    saveImage(resized,"jamurku");
-                    Log.d("gambar","berhasil , lebar : " + img.getWidth() + " tinggi :" + img.getHeight());
-                    Log.d("gambar","resized, lebar: "+ resized.getWidth() + "tinggi : " + resized.getHeight());
+                    saveImage(img,"jamurku");
+                    Log.d("gambar","berhasil");
 
                 }catch (Exception e){
                     Log.d("gambar", e.toString());
@@ -140,7 +163,6 @@ public class CameraActivity extends AppCompatActivity{
                 ImageLib imgsearch = new ImageLib();
                 double[] cvq=null;
                 double [][] hasil=null;
-                double [][] hasil2=null;
                 double[] w1=null;
 
                 int [][][] rgb_colors = null;
@@ -148,13 +170,12 @@ public class CameraActivity extends AppCompatActivity{
                 JamurHelper jamurHelper = new JamurHelper(getApplicationContext());
                 jamurHelper.open();
                 double[][] warnaDataset = jamurHelper.getAllWarna();
-                double[][] bentukDataset = jamurHelper.getAllBentuk();
                 ArrayList<JamurModel> jamurModels = jamurHelper.getAllData();
                 jamurHelper.close();
 
-                    Log.d("gambar", "x: " + warnaDataset.length + "|y:" + warnaDataset[0].length);
+                Log.d("ekstrak", "x: " + warnaDataset.length + "|y:" + warnaDataset[0].length);
 
-                    Log.d("gambar","mulai get rgb");
+                Log.d("ekstrak","mulai get rgb");
 //
 //                    //yang bener nih/////////////////////////////////////////////////
 //
@@ -162,126 +183,49 @@ public class CameraActivity extends AppCompatActivity{
 //
 //                    ////////////////////////////////////////////////////////////////
 
-////////////////////////////////// Start 3D Vector Quantization ///////////////////////////////
-                Long tsRGB = System.nanoTime();
-                    Log.d("rgb","mulai get RGB");
-                    rgb_colors = getRGB(file.getAbsolutePath()); //[256][256][3]
-                    Log.d("rgb",rgb_colors.toString());
-                Long teRGB = System.nanoTime();
-                Log.d("rgb","waktu get RGB :" + (teRGB-tsRGB)/0.000001 +"ms");
 
-                Long tsCVQ = System.nanoTime();
-                    Log.d("rgb","ekstraksi dimulai");
-                    cvq = imgsearch.ColorFeatureExtraction(rgb_colors);
-                    Log.d("rgb","hasil ekstraksi :" + cvq);
-                Long teCVQ = System.nanoTime();
-                Log.d("rgb","waktu get CVQ: " + (teCVQ-tsCVQ)/0.000001 +"ms");
-
-//////////////////////////////////End 3D Vector Quantization //////////////////////////////////
-
-/////////////////////////////// Hu Moment ///////////////////////////
-
-                Long tsHu = System.nanoTime();
-                Log.d("rgb","mulai get Shape");
-                executeHueMoment(file.getAbsolutePath());
-
-//                    Log.d("rgb",rgb_colors.toString());
-                Long teHu = System.nanoTime();
-                Log.d("rgb","waktu get Shape :" + (teHu-tsHu)/0.000001 +"ms");
-
-                ///////////////// end HU Moment ///////////
-                    //loading color features
-
-                ////////////////nyari hasil similarity Color ///////
-                Long tsCosine = System.nanoTime();
-
-                    hasil = imgsearch.SimilarityMeasurement("cosine", cvq, warnaDataset);
-                    int similiarPosition = (int)hasil[1][0];
-
-                    Log.d("gambar" , "similar position : " + similiarPosition);
-                    Log.d("gambar" , "hasil[0]" + hasil[0].length);
-                    Log.d("gambar" , "hasil[1]" + hasil[1].length);
-
-                    for(int i = 0; i< hasil.length; i++){
-                        String temp = "";
-                        temp += ("hasil baris "+i + ": ");
-                        for(int j = 0; j < hasil[i].length; j++){
-                            temp+=(hasil[i][j] + " ");
-                        }
-
-                        Log.d("gambar", "hasil " + temp);
-                    }
-
-                    int posisi = 0;
-                    for(int i = 0 ; i< jamurModels.size(); i++){
-                        if(similiarPosition <= Integer.parseInt((jamurModels.get(i)).getRange())){
-                            posisi = i;
-                            break;
-                        }
-                    }
-
-                Long teCosine = System.nanoTime();
-                Log.d("rgb","waktu get Similarity: " + (teCosine-tsCosine)/0.000001 +"ms");
+                Log.d("rgb","mulai get RGB");
+                rgb_colors = getRGB(file.getAbsolutePath()); //[256][256][3]
+                Log.d("rgb",rgb_colors.toString());
 
 
-                /////////////////////end similarity color //////////////////////////////
+                Log.d("rgb","ekstraksi dimulai");
+                cvq = imgsearch.ColorFeatureExtraction(rgb_colors);
+                Log.d("rgb","hasil ekstraksi :" + cvq);
 
-                ///////////////////////Similarity HU MOment //////////////////////////////
+                //loading color features
 
-                Long tsCosine2 = System.nanoTime();
+                //nyari hasil
 
-                hasil2 = imgsearch.SimilarityMeasurement("cosine", momentResult , bentukDataset);
+                hasil = imgsearch.SimilarityMeasurement("cosine", cvq, warnaDataset);
+                int similiarPosition = (int)hasil[1][hasil[1].length-1];
 
-                int similiarPosition2 = (int)hasil2[1][0];
-
-                Log.d("gambar" , "similar position : " + similiarPosition2);
-                Log.d("gambar" , "hasil2[0]" + hasil2[0].length);
-                Log.d("gambar" , "hasil2[1]" + hasil2[1].length);
-
-                for(int i = 0; i< hasil2.length; i++){
+                for(int i = 0; i< hasil.length; i++){
                     String temp = "";
                     temp += ("hasil baris "+i + ": ");
-                    for(int j = 0; j < hasil2[i].length; j++){
-                        temp+=(hasil2[i][j] + " ");
+                    for(int j = 0; j < hasil[i].length; j++){
+                        temp+=(hasil[i][j] + " ");
                     }
-
-                    Log.d("gambar", "hasil " + temp);
                 }
 
-                int posisi2 = 0;
+                int posisi = 0;
                 for(int i = 0 ; i< jamurModels.size(); i++){
                     if(similiarPosition <= Integer.parseInt((jamurModels.get(i)).getRange())){
-                        posisi2 = i;
+                        posisi = i;
                         break;
                     }
                 }
 
-                Long teCosine2 = System.nanoTime();
-                Log.d("rgb","waktu get Similarity: " + (teCosine2-tsCosine2)/0.000001 +"ms");
-
-//                    //coba
-//                int hasilquery[]=new int[hasil[0].length];
-//                for(int j=0;j<hasil[0].length;j++) {
-//                    hasilquery[j] = (int) hasil[1][j];
-//                    String te = "";
-//                    te+=hasilquery[j]+"";
-//                    Log.d("gambar","hasil query :" + te);
-//                }
-//
-//                vlib.view(hasilquery);
-//                vlib.view(vlib.double_to_int(hasil[1]));
-
-
-
-
-//                Log.d("gambar" , "posisi : " +posisi);
+                Log.d("hu","mulai hu");
+                Hu();
+                Log.d("hu","selesai hu");
 
 //                    System.out.println("Cintaaaaa " + posisi);
 
-                    Intent intent = new Intent(CameraActivity.this, HasilActivity.class);
-                    intent.putExtra("CaptureImg", img);
-                    intent.putExtra(EXTRA_JAMUR, jamurModels.get(posisi));
-                    startActivity(intent);
+                Intent intent = new Intent(CameraActivity.this, HasilActivity.class);
+                intent.putExtra("CaptureImg", img);
+                intent.putExtra(EXTRA_JAMUR, jamurModels.get(posisi));
+                startActivity(intent);
 
             }
         });
@@ -391,68 +335,44 @@ public class CameraActivity extends AppCompatActivity{
         return _pixel_rgb_color;
     }
 
+    public void Hu()
+    {
 
-    double centMoment(int p, int q, String filename) {
+        Mat imagenOriginal;
+        imagenOriginal = new Mat();
+        Mat binario;
+        binario = new Mat();
+        Mat Canny;
+        Canny = new Mat();
 
-        Bitmap imageBitmap = BitmapFactory.decodeFile(filename);
+        Utils.bitmapToMat(resized, imagenOriginal);
+        Mat gris= new Mat(imagenOriginal.width() ,imagenOriginal.height(),imagenOriginal.type());
+        Imgproc.cvtColor(imagenOriginal, gris, Imgproc.COLOR_RGB2GRAY);
+        org.opencv.core.Size s = new Size(3,3);
+        Imgproc.GaussianBlur(gris, gris, s, 2);
 
-        int bitmapWidth = imageBitmap.getWidth();
-        int bitmapHeight = imageBitmap.getHeight();
-        int[][] blackWhiteBitmap = new int[bitmapWidth][bitmapHeight];
-        int moo = 0;
-        for (int i = 0;i < bitmapWidth;i++) {
-            for (int j = 0;j < bitmapHeight;j++) {
-                int color = imageBitmap.getPixel(i,j);
-                int grayscale = (Color.red(color) + Color.green(color) + Color.blue(color)) / 3;
-                if (grayscale > 128) {
-                    blackWhiteBitmap[i][j] = 1;
-                    moo++;
-                } else {
-                    blackWhiteBitmap[i][j] = 0;
-                }
-            }
-        }
-        double m1o=0;
-        double mo1=0;
-        for (int i = 0;i < bitmapWidth-1;i++) {
-            for (int j = 0;j < bitmapHeight-1;j++) {
-                m1o=m1o+(i)*blackWhiteBitmap[i+1][j+1];
-                mo1=mo1+(j)*blackWhiteBitmap[i+1][j+1];
-            }
-        }
-        double xx=m1o/moo;
-        double yy=mo1/moo;
-        double mu_pq=0;
-        for (int i = 0;i < bitmapWidth-1;i++) {
-            double x=i-xx;
-            for (int j = 0;j < bitmapHeight-1;j++) {
-                double y=j-yy;
-                mu_pq=mu_pq+Math.pow(x, p)*Math.pow(y, q)*blackWhiteBitmap[i+1][j+1];
-            }
-        }
+        Imgproc.threshold(gris, binario, 100, 255, Imgproc.THRESH_BINARY);
+        Imgproc.Canny(gris, Canny, 50, 50 * 3);
 
-        double gamma=0.5*(p+q)+1;
-        double n_pq=mu_pq/Math.pow(moo, gamma);
+        List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
 
-        return  n_pq;
+        Mat hierarcy = new Mat();
+
+        Imgproc.findContours(Canny, contours, hierarcy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+        Imgproc.drawContours(Canny, contours, -1, new Scalar(Math.random() * 255, Math.random() * 255, Math.random() * 255));
+
+        Moments momento = new Moments();
+        Mat hu= new Mat();
+
+        momento = Imgproc.moments(contours.get(0), false); // ERROR LINE
+
+        Imgproc.HuMoments(momento, hu);
+
+        System.out.println("hasil hue: "+hu.dump());
+        Log.d("hu","hasil hue: " + hu.dump());
+
     }
-    public void executeHueMoment(String filename) {
-        momentResult = new double[7];
-        double n20=centMoment(2,0,filename);
-        double n02=centMoment(0,2,filename);
-        momentResult[0]=n20+n02;
-        double n11=centMoment(1,1,filename);
-        momentResult[1]=Math.pow(n20-n02,2)+4*Math.pow(n11,2);
-        double n30=centMoment(3,0,filename);
-        double n12=centMoment(1,2,filename);
-        double n21=centMoment(2,1,filename);
-        double n03=centMoment(0,3,filename);
-        momentResult[2]=Math.pow(n30-3*n12, 2)+Math.pow(3*n21-n03,2);
-        momentResult[3]=Math.pow(n30+n12, 2)+Math.pow(n21+n03,2);
-        momentResult[4]=(n30-3*n21)*(n30+n12)*(Math.pow(n30+n12, 2)-3*Math.pow(n21+n03, 2))+(3*n21-n03)*(n21+n03)*(3*Math.pow(n30+n12, 2)-Math.pow(n21+n03, 2));
-        momentResult[5]=(n20-n02)*(Math.pow(n30+n12, 2)-Math.pow(n21+n03, 2))+4*n11*(n30+n12)*(n21+n03);
-        momentResult[6]=(3*n21-n03)*(n30+n12)*(Math.pow(n30+n12, 2)-3*Math.pow(n21+n03, 2))-(n30+3*n12)*(n21+n03)*(3*Math.pow(n30+n12, 2)-Math.pow(n21+n03, 2));
-    }
+
 
 
 }
