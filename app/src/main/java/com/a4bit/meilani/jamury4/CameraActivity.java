@@ -70,6 +70,8 @@ public class CameraActivity extends AppCompatActivity{
         OpenCVLoader.initDebug();
 
     }
+
+
     ImageView quick_start_cropped_image;
     private Bitmap bitmap, bitmapCropped, medianBitmap, img,gg,resized;
     Button prepoBtn,eksBtn;
@@ -198,7 +200,11 @@ public class CameraActivity extends AppCompatActivity{
                 //nyari hasil
 
                 hasil = imgsearch.SimilarityMeasurement("cosine", cvq, warnaDataset);
-                int similiarPosition = (int)hasil[1][hasil[1].length-1];
+                int similiarPosition = (int)hasil[1][0];
+
+                Log.d("gambar" , "similar position : " + similiarPosition);
+                Log.d("gambar" , "hasil[0]" + hasil[0].length);
+                Log.d("gambar" , "hasil[1]" + hasil[1].length);
 
                 for(int i = 0; i< hasil.length; i++){
                     String temp = "";
@@ -206,6 +212,8 @@ public class CameraActivity extends AppCompatActivity{
                     for(int j = 0; j < hasil[i].length; j++){
                         temp+=(hasil[i][j] + " ");
                     }
+
+                    Log.d("gambar", "hasil " + temp);
                 }
 
                 int posisi = 0;
@@ -215,6 +223,8 @@ public class CameraActivity extends AppCompatActivity{
                         break;
                     }
                 }
+
+                Log.d("gambar","posisi gambar :"+posisi);
 
                 Log.d("hu","mulai hu");
                 Hu();
@@ -345,28 +355,31 @@ public class CameraActivity extends AppCompatActivity{
         Mat Canny;
         Canny = new Mat();
 
-        Utils.bitmapToMat(resized, imagenOriginal);
+        Utils.bitmapToMat(img, imagenOriginal);
         Mat gris= new Mat(imagenOriginal.width() ,imagenOriginal.height(),imagenOriginal.type());
         Imgproc.cvtColor(imagenOriginal, gris, Imgproc.COLOR_RGB2GRAY);
+
         org.opencv.core.Size s = new Size(3,3);
-        Imgproc.GaussianBlur(gris, gris, s, 2);
+        //Imgproc.GaussianBlur(gris, gris, s, 2);
 
         Imgproc.threshold(gris, binario, 100, 255, Imgproc.THRESH_BINARY);
-        Imgproc.Canny(gris, Canny, 50, 50 * 3);
+        //Imgproc.Canny(gris, Canny, 50, 50 * 3);
 
         List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
 
         Mat hierarcy = new Mat();
 
-        Imgproc.findContours(Canny, contours, hierarcy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-        Imgproc.drawContours(Canny, contours, -1, new Scalar(Math.random() * 255, Math.random() * 255, Math.random() * 255));
+        Imgproc.findContours(binario, contours, hierarcy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
+        //Imgproc.drawContours(binario, contours, -1, new Scalar(Math.random() * 255, Math.random() * 255, Math.random() * 255));
 
         Moments momento = new Moments();
         Mat hu= new Mat();
 
-        momento = Imgproc.moments(contours.get(0), false); // ERROR LINE
+        momento = Imgproc.moments(contours.get(0), false);
 
         Imgproc.HuMoments(momento, hu);
+
+
 
         System.out.println("hasil hue: "+hu.dump());
         Log.d("hu","hasil hue: " + hu.dump());
