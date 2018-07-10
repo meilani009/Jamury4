@@ -237,7 +237,7 @@ public class SplashActivity extends Activity {
             Resources res = getResources();
             InputStream bentuk_eks;
 
-            bentuk_eks = res.openRawResource(R.raw.bentuk);
+            bentuk_eks = res.openRawResource(R.raw.opencv);
 
             reader2 = new BufferedReader(new InputStreamReader(bentuk_eks));
             int count =0;

@@ -199,6 +199,38 @@ public class CameraActivity extends AppCompatActivity{
 
                 //nyari hasil
 
+                //Normalisasi//
+
+                //ambil data training warna
+                double[][] norm = new double[1021][125];
+                norm = jamurHelper.getAllWarna();
+                Log.d("ayam",String.valueOf(norm.length));
+                //masukkan data ekstraksi kamera ke array norm
+
+                for (int b = 1020 ; b< norm.length;b++){
+
+                    for(int k = 0 ; k < norm[b].length;k++){
+                        norm[b][k]+= cvq[b];
+                    }
+                }
+
+                for(int i = 0; i< norm.length; i++){
+                    String temp1 = "";
+                    temp1 += ("norm "+i + ": ");
+                    for(int j = 0; j < norm[i].length; j++){
+                        temp1+=(norm[i][j] + " ");
+                    }
+
+                    Log.d("gambar", "norm " + temp1);
+                }
+
+
+
+
+
+
+
+                //similarity//
                 hasil = imgsearch.SimilarityMeasurement("cosine", cvq, warnaDataset);
                 int similiarPosition = (int)hasil[1][0];
 

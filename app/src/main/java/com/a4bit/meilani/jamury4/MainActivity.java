@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mulai_kamera = new Intent(getApplicationContext(), CameraActivity.class);
+                Intent mulai_kamera = new Intent(getApplicationContext(), BentukActivity.class);
                 startActivity(mulai_kamera);
             }
         });
