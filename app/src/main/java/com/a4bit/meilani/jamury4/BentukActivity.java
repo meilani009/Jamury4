@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.res.TypedArrayUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -32,12 +33,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.stream.DoubleStream;
 
 import ALI.ImageLib;
 import ALI.VectorLib;
 
 import static com.a4bit.meilani.jamury4.CardViewJamurAdapter.EXTRA_JAMUR;
+import static java.lang.Double.NaN;
 import static org.opencv.imgproc.Imgproc.moments;
+
 
 /**
  * Created by root on 7/10/18.
@@ -203,32 +208,80 @@ public class BentukActivity extends AppCompatActivity {
 
 
                 //normalisasi
-               double[][] hasilnorm;
-               hasilnorm =  MinMax(combine);
+               double[][] hasilnorm =  MinMax(combine);
+
+                double [][] normalisasi = vlib.Normalization("minmax",combine,0,1);
 
                 //print data
                 for(int i = 0; i< hasilnorm.length; i++){
                     String temp1 = "";
-                    temp1 += ("combine "+i + ": ");
+                    temp1 += ("hasilnorm "+i + ": ");
                     for(int j = 0; j < hasilnorm[i].length; j++){
                         temp1+=(hasilnorm[i][j] + " ");
                     }
-                    Log.d("ayam", "combine sesudah " + temp1);
+                    Log.d("ayam", "hasil norm " + temp1);
+                }
+                //print data
+                for(int i = 0; i< normalisasi.length; i++){
+                    String temp1 = "";
+                    temp1 += ("normalisasi "+i + ": ");
+                    for(int j = 0; j < normalisasi[i].length; j++){
+                        temp1+=(normalisasi[i][j] + " ");
+                    }
+                    Log.d("ayam", "hasil normalisasi " + temp1);
                 }
 
                 //hasilku -> array hasil kamera setelah normalisasi
 
                 //proses pemindahan indeks terakhir combine(array hasil kamera) ke array baru
-                double[] hasilku= combine[combine.length-1];
+                double[] hasilku= hasilnorm[hasilnorm.length-1];
+                Log.d("ayam","hasilku: " +hasilku.toString());
+                Log.d("ayam","hasilku: " +hasilku.length);
+                String tempo=" ";
+                for(int y=0;y<hasilku.length;y++){
+
+                    tempo+=(hasilku[y]+" ");
+                }
+                Log.d("ayam","isi hasilku: "+ tempo);
+                Log.d("ayam","combine lama: "+hasilnorm.length);
 
 
                 //proses penghapusan array terakhir, sehingga combine sekarang berisi data test yang sudah dinormalisasi
-                combine[combine.length-1]=null;
+                //combine[combine.length-1][0]= Double.parseDouble(null);
+
+                hasilnorm[hasilnorm.length-1]=null;
+                Log.d("ayam","isi hasilnorm terakhir: " + hasilnorm[hasilnorm.length-1]);
+
+
+                Log.d("ayam","hasilnorm baru: "+hasilnorm.length );
+
+                double[][]datatraining = new double[hasilnorm.length-1][hasilnorm[0].length];
+
+                for(int u=0;u<hasilnorm.length-1;u++){
+                    for(int s=0;s<hasilnorm[u].length;s++){
+                        datatraining[u][s]=hasilnorm[u][s];
+                    }
+                }
+
+                //datatraining=hasilnorm;
+
+                Log.d("ayam","panjang datatraining: "+datatraining.length);
+
+                //print data
+                for(int i = 0; i< datatraining.length; i++){
+                    String temp1 = "";
+                    temp1 += ("datatraining "+i + ": ");
+                    for(int j = 0; j < datatraining[i].length; j++){
+                        temp1+=(datatraining[i][j] + " ");
+                    }
+                    Log.d("ayam", "isi data training " + temp1);
+                }
+
 
                 //nyari hasil
                 Long tsCosine = System.nanoTime();
 
-                hasil = imgsearch.SimilarityMeasurement("cosine", momentResult , bentukDataset);
+                hasil = imgsearch.SimilarityMeasurement("cosine", hasilku , datatraining);
 
                 int similiarPosition = (int)hasil[1][0];
 
@@ -510,22 +563,12 @@ public class BentukActivity extends AppCompatActivity {
             double max=max(data,j);
             double min=min(data,j);
             for(i=0;i<jumdat;i++){
-
-                if(data[i][j]==0){
+                newdata[i][j] = ((data[i][j]-min)*(newmax-newmin))/((max-min)+newmin);
+                if (newdata[i][j] == NaN)
                     newdata[i][j]=0;
-                }
-                else{
-
-                    newdata[i][j] = ((data[i][j]-min)*(newmax-newmin))/((max-min)+newmin);
-                    //newdata[i][j] = (int)(newdata[i][j]*100);
-                    //Log.d("ayam","combine jalan");
-                }
             }
-
-
         }return newdata;
 
     }
-
 
 }
