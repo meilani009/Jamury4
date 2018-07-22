@@ -11,9 +11,11 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -36,6 +38,7 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -146,7 +149,7 @@ public class CameraActivity extends AppCompatActivity{
 
                 quick_start_cropped_image.setImageBitmap(img);
                 try {
-                    saveImage(img,"jamurku");
+                    saveImage(resized,"jamurku");
                     Log.d("gambar","berhasil");
 
                 }catch (Exception e){
@@ -162,6 +165,7 @@ public class CameraActivity extends AppCompatActivity{
         eksBtn.setOnClickListener(new View.OnClickListener() {
 
 
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
 
@@ -170,7 +174,7 @@ public class CameraActivity extends AppCompatActivity{
                 double[] cvq=null;
                 double [][] hasilSimilarityWarna=null;
                 double [][] hasilSimilarityBentuk=null;
-                double[] w1=null;
+//                double[] w1=null;
 
                 int [][][] rgb_colors = null;
 
@@ -396,10 +400,10 @@ public class CameraActivity extends AppCompatActivity{
                 //combine[combine.length-1][0]= Double.parseDouble(null);
 
                 normalisasiBentuk[normalisasiBentuk.length-1]= null;
-                Log.d("ayam","isi hasilnorm terakhir: " + hasilBentukKu[hasilBentukKu.length-1]);
-
-
-                Log.d("ayam","hasilnorm baru: "+hasilBentukKu.length );
+//                Log.d("ayam","isi hasilnorm terakhir: " + hasilBentukKu[hasilBentukKu.length-1]);
+//
+//
+//                Log.d("ayam","hasilnorm baru: "+hasilBentukKu.length );
 
                 double[][]datatrainingBentuk = new double[normalisasiBentuk.length-1][normalisasiBentuk[0].length];
 
@@ -413,54 +417,138 @@ public class CameraActivity extends AppCompatActivity{
 
                 Log.d("ayam","panjang datatraining: "+datatrainingBentuk.length);
 
-                //print data
-                for(int i = 0; i< datatrainingBentuk.length; i++){
-                    String temp1 = "";
-                    temp1 += ("datatraining "+i + ": ");
-                    for(int j = 0; j < datatrainingBentuk[i].length; j++){
-                        temp1+=(datatrainingBentuk[i][j] + " ");
-                    }
-                    Log.d("ayam", "isi data training " + temp1);
-                }
+//                //print data
+//                for(int i = 0; i< datatrainingBentuk.length; i++){
+//                    String temp1 = "";
+//                    temp1 += ("datatraining "+i + ": ");
+//                    for(int j = 0; j < datatrainingBentuk[i].length; j++){
+//                        temp1+=(datatrainingBentuk[i][j] + " ");
+//                    }
+//                    Log.d("ayam", "isi data training " + temp1);
+//                }
 
                 //nyari hasil
                 Long tsCosine = System.nanoTime();
 
                 hasilSimilarityBentuk = imgsearch.SimilarityMeasurement("cosine", hasilBentukKu , datatrainingBentuk);
-
+//
+// print data
+                for(int i = 0; i< hasilSimilarityBentuk.length; i++){
+                    String tempq = "";
+                    tempq += ("datatraining "+i + ": ");
+                    for(int j = 0; j < hasilSimilarityBentuk[i].length; j++){
+                        tempq+=(hasilSimilarityBentuk[i][j] + " ");
+                    }
+                    Log.d("ayam", "isi hasil similarity bentuk " + tempq);
+                }
 
                 //penggabungan
 
-                //perkalian antara weight dengan matrix warna
-                for(int h=0;h<hasilSimilarityWarna.length;h++){
-                    hasilSimilarityWarna[h][0]= hasilSimilarityWarna[h][0]*1;
+//                //perkalian antara weight dengan matrix warna
+//                for(int h=0;h<hasilSimilarityWarna.length;h++){
+//                    hasilSimilarityWarna[h][0]= hasilSimilarityWarna[h][0]*1;
+//                }
+//
+//                //perkalian antara weight dengan matrix bentuk
+//                for(int p=0;p<hasilSimilarityBentuk.length;p++){
+//                    hasilSimilarityBentuk[p][0]=hasilSimilarityBentuk[p][0]*0;
+//                }
+//
+//                double[][]penjumlahan = new double[1020][2];
+//
+//                for(int q=0;q<hasilSimilarityWarna.length;q++){
+//                    penjumlahan[q][0]=hasilSimilarityBentuk[q][0]+hasilSimilarityWarna[q][0];
+//                }
+//
+////                /print data
+//                for(int i = 0; i< penjumlahan.length; i++){
+//                    String temp3 = "";
+//                    temp3 += ("data penjumlahan "+i + ": ");
+//                    for(int j = 0; j < penjumlahan[i].length; j++){
+//                        temp3+=(penjumlahan[i][j] + " ");
+//                    }
+//                    Log.d("ayam", "isi data penjumlahan " + temp3);
+//                }
+
+                //pembuatan map untuk sorting index
+
+
+                Map<Integer, Double> mapBentuk = new TreeMap<Integer, Double>();
+
+
+// data hasil similarity diurutkan berdasarkan index
+                for (int s = 0; s < hasilSimilarityBentuk[0].length; s++) {
+                    mapBentuk.put((int) hasilSimilarityBentuk[1][s], hasilSimilarityBentuk[0][s]);
                 }
+
+                Log.d("ayam","panjang map bentuk:" + mapBentuk.size());
+                Map<Integer, Double> mapWarna = new TreeMap<Integer, Double>();
+// data hasil similarity diurutkan berdasarkan index
+                for (int s = 0; s < hasilSimilarityWarna[0].length; s++) {
+                    mapWarna.put((int) hasilSimilarityWarna[1][s], hasilSimilarityWarna[0][s]);
+                }
+                Log.d("ayam","panjang map warna:" + mapWarna.size());
+
+                double w1 =1;
+                double w2 =0;
+                //perkalian antara weight dengan matrix warna
+                for (int h = 0; h < mapWarna.size(); h++) {
+                    mapWarna.replace(h, mapWarna.get(h) * w1);
+//            mapWarna.get(h) = mapWarna.get(h) * w1;
+//            hasilWarna[0][h] = hasilWarna[0][h] * w1;
+                }
+
+//        System.out.println("warna size: " + mapWarna.size());
 
                 //perkalian antara weight dengan matrix bentuk
-                for(int p=0;p<hasilSimilarityBentuk.length;p++){
-                    hasilSimilarityBentuk[p][0]=hasilSimilarityBentuk[p][0]*0;
+                for (int p = 0; p < mapBentuk.size(); p++) {
+                    mapBentuk.replace(p, mapBentuk.get(p) * w2);
+//            hasilBentuk[0][p] = hasilBentuk[0][p] * w2;
                 }
 
-                double[][]penjumlahan = new double[1020][2];
+//        System.out.println("map warna baru : " + mapWarna);
+//        System.out.println("map bentuk baru : " + mapBentuk);
+//        System.out.println("leng bentuk" + hasilBentuk.length);
 
-                for(int q=0;q<hasilSimilarityWarna.length;q++){
-                    penjumlahan[q][0]=hasilSimilarityBentuk[q][0]+hasilSimilarityWarna[q][0];
+                //ubah ke map untuk sorting index
+                Map<Integer, Double> mapJumlah = new TreeMap<Integer, Double>();
+
+                for (int s = 0; s < mapWarna.size(); s++) {
+//            mapWarna.put((int) hasilWarna[1][s], hasilWarna[0][s]);
+                    mapJumlah.put(s, mapWarna.get(s) + mapBentuk.get(s));
                 }
 
-//                /print data
-                for(int i = 0; i< penjumlahan.length; i++){
-                    String temp3 = "";
-                    temp3 += ("data penjumlahan "+i + ": ");
-                    for(int j = 0; j < penjumlahan[i].length; j++){
-                        temp3+=(penjumlahan[i][j] + " ");
-                    }
-                    Log.d("ayam", "isi data penjumlahan " + temp3);
-                }
+//        System.out.println("map jumlah : " + mapJumlah);
+//
+//        System.out.println("penjumlahan 0  " + penjumlahan[0].length);
+//        System.out.println("penjumlahan 1  " + penjumlahan[1].length);
+
 
                 Map<Double,Integer> mapHasilSort = new TreeMap<Double,Integer>();
 
+                for (int s = 0; s < mapJumlah.size(); s++) {
+//            mapWarna.put((int) hasilWarna[1][s], hasilWarna[0][s]);
+                    mapHasilSort.put(mapJumlah.get(s),s);
+                }
 
-                int posisiGambar = (int)penjumlahan[1][0];
+//        System.out.println("map hasil sort :" + mapHasilSort);
+//
+                TreeMap<Double,Integer> newMapSorting = new TreeMap(Collections.reverseOrder());
+                newMapSorting.putAll(mapHasilSort);
+
+//        System.out.println("newmapsorting:" + newMapSorting);
+
+                //access treemap
+                Integer first = newMapSorting.firstEntry().getValue();
+Log.d("ayam","newMapsorting : "+newMapSorting);
+                //    String firstOther = myMap.get(myMap.firstKey());
+        Log.d("ayam","issi first: " +first);
+
+
+
+
+//                int posisiGambar = (int)penjumlahan[1][0];
+                int posisiGambar = first;
 
 
                 //mencari posisi gambar
