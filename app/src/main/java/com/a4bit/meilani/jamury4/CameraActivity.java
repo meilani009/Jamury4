@@ -107,10 +107,19 @@ public class CameraActivity extends AppCompatActivity{
         mypath=new File(directory,"jamur.jpg");
 
         quick_start_cropped_image = (ImageView) findViewById(R.id.quick_start_cropped_image);
-        prepoBtn = (Button) findViewById(R.id.prepoBtn);
-        prepoBtn.setOnClickListener(new View.OnClickListener() {
+
+        //PRE-PROCESSING //
+
+        //EKSTRAKSI FITUR////
+        eksBtn = (Button) findViewById(R.id.eksBtn);
+
+        eksBtn.setOnClickListener(new View.OnClickListener() {
+
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
+
                 img = bitmapCropped.copy(Bitmap.Config.ARGB_8888, true);
 
                 int[] pixel = new int[9];
@@ -157,18 +166,6 @@ public class CameraActivity extends AppCompatActivity{
                 }
 
 
-            }
-        });
-
-        eksBtn = (Button) findViewById(R.id.eksBtn);
-
-        eksBtn.setOnClickListener(new View.OnClickListener() {
-
-
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onClick(View view) {
-
                 VectorLib vlib = new VectorLib();
                 ImageLib imgsearch = new ImageLib();
                 double[] cvq=null;
@@ -192,34 +189,12 @@ public class CameraActivity extends AppCompatActivity{
                 jamurHelper.close();
 
                 //db ditutup
-
-                Log.d("ekstrak", "x: " + dataWarna.length + "|y:" + dataWarna[0].length);
-
-                Log.d("ekstrak","mulai get rgb");
-//
-//                    //yang bener nih/////////////////////////////////////////////////
-//
-//                    Bitmap kk = BitmapFactory.decodeFile(file.getCanonicalPath());
-//
-//                    ////////////////////////////////////////////////////////////////
-
-
                 //proses ekstraksi warna
-
-                Log.d("rgb","mulai get RGB");
                 rgb_colors = getRGB(file.getAbsolutePath()); //[256][256][3]
-                Log.d("rgb",rgb_colors.toString());
-
-
-                Log.d("rgb","ekstraksi dimulai");
                 cvq = imgsearch.ColorFeatureExtraction(rgb_colors);
-                Log.d("rgb","hasil ekstraksi :" + cvq);
-
 
                 //Normalisasi//
-
                 //ambil data training warna
-
                 for(int i = 0; i< dataWarna.length; i++){
                     for(int j = 0; j < dataWarna[i].length; j++){
                         combineWarna[i][j] = dataWarna[i][j];
@@ -232,49 +207,14 @@ public class CameraActivity extends AppCompatActivity{
                     combineWarna[1020][j] = cvq[j];
                 }
 
-                //print data
-                for(int i = 0; i< combineWarna.length; i++){
-                    String temp1 = "";
-                    temp1 += ("combine "+i + ": ");
-                    for(int j = 0; j < combineWarna[i].length; j++){
-                        temp1+=(combineWarna[i][j] + " ");
-                    }
-
-                    Log.d("ayam", "combine sebelum" + temp1);
-                }
-
                 //normalisasi
-               // double [][] normalisasiWarna = vlib.Normalization("minmax",combineWarna,0,1);
                 double[][] normalisasiWarna=MinMax(combineWarna);
-                //print data
-                for(int i = 0; i< normalisasiWarna.length; i++){
-                    String temp1 = "";
-                    temp1 += ("normalisasi "+i + ": ");
-                    for(int j = 0; j < normalisasiWarna[i].length; j++){
-                        temp1+=(normalisasiWarna[i][j] + " ");
-                    }
-                    Log.d("ayam", "hasil normalisasi " + temp1);
-                }
-
 
                 //proses pemindahan indeks terakhir normalisasi(array hasil kamera) ke array baru
                 double[] hasilWarnaKu= normalisasiWarna[normalisasiWarna.length-1];
-                Log.d("ayam","hasilku: " +hasilWarnaKu.toString());
-                Log.d("ayam","hasilku: " +hasilWarnaKu.length);
-                String tempo=" ";
-                for(int y=0;y<hasilWarnaKu.length;y++){
-
-                    tempo+=(hasilWarnaKu[y]+" ");
-                }
-                Log.d("ayam","isi hasilku: "+ tempo);
 
                 //Proses pemotongan index terakhir
-                Log.d("ayam","combine lama: "+normalisasiWarna.length);
                 normalisasiWarna[normalisasiWarna.length-1]=null;
-                Log.d("ayam","isi hasilnorm terakhir: " + normalisasiWarna[normalisasiWarna.length-1]);
-
-
-                Log.d("ayam","hasilnorm baru: "+normalisasiWarna.length );
 
                 double[][]datatrainingWarna = new double[normalisasiWarna.length-1][normalisasiWarna[0].length];
 
@@ -284,25 +224,8 @@ public class CameraActivity extends AppCompatActivity{
                     }
                 }
 
-                //print data
-                for(int i = 0; i< datatrainingWarna.length; i++){
-                    String temp1 = "";
-                    temp1 += ("datatraining warna "+i + ": ");
-                    for(int j = 0; j < datatrainingWarna[i].length; j++){
-                        temp1+=(datatrainingWarna[i][j] + " ");
-                    }
-                    Log.d("ayam", "isi data training " + temp1);
-                }
-
-
                 //similarity//
                 hasilSimilarityWarna = imgsearch.SimilarityMeasurement("cosine", hasilWarnaKu, datatrainingWarna);
-//                int similiarPosition = (int)hasilSimilarityWarna[1][0];
-
-//                Log.d("gambar" , "similar position : " + similiarPosition);
-                Log.d("gambar" , "hasil[0]" + hasilSimilarityWarna[0].length);
-                Log.d("gambar" , "hasil[1]" + hasilSimilarityWarna[1].length);
-
                 for(int i = 0; i< hasilSimilarityWarna.length; i++){
                     String temp = "";
                     temp += ("hasil baris "+i + ": ");
@@ -310,24 +233,10 @@ public class CameraActivity extends AppCompatActivity{
                         temp+=(hasilSimilarityWarna[i][j] + " ");
                     }
 
-                    Log.d("gambar", "hasil similarity warna : " + temp);
+                    Log.d("ayam", "hasil similarity warna : " + temp);
                 }
 
-//                int posisi = 0;
-//                for(int i = 0 ; i< jamurModels.size(); i++){
-//                    if(similiarPosition <= Integer.parseInt((jamurModels.get(i)).getRange())){
-//                        posisi = i;
-//                        break;
-//                    }
-//                }
-//
-//                Log.d("gambar","posisi gambar :"+posisi);
-
                 ///EKSTRAKSI BENTUK ////
-
-                Log.d("ekstrak", "x: " + dataBentuk.length + "|y:" + dataBentuk[0].length);
-
-                Log.d("ekstrak","mulai ekstraksi bentuk");
 
                 double[] momentResult = Hu();
 
@@ -343,7 +252,6 @@ public class CameraActivity extends AppCompatActivity{
                     }
                 }
 
-                Log.d("ayam","counter data: "+counterdata);
                 //tambahkan data testing
 
                 for(int j = 0; j < dataBentuk[0].length; j++){
@@ -352,59 +260,20 @@ public class CameraActivity extends AppCompatActivity{
 
                 //combine[][] -> array hasil kombinasi data test dgn data baru
 
-
-                //print data
-                for(int i = 0; i< combineBentuk.length; i++){
-                    String temp1 = "";
-                    temp1 += ("combine "+i + ": ");
-                    for(int j = 0; j < combineBentuk[i].length; j++){
-                        temp1+=(combineBentuk[i][j] + " ");
-                    }
-
-                    Log.d("ayam", "combine sebelum" + temp1);
-                }
-
-
                 //normalisasi
-               // double[][] normalisasiBentuk =  MinMax(combineBentuk);
 
                 double [][] normalisasiBentuk = vlib.Normalization("minmax",combineBentuk,0,1);
-
-                //print data
-                for(int i = 0; i< normalisasiBentuk.length; i++){
-                    String temp1 = "";
-                    temp1 += ("normalisasi "+i + ": ");
-                    for(int j = 0; j < normalisasiBentuk[i].length; j++){
-                        temp1+=(normalisasiBentuk[i][j] + " ");
-                    }
-                    Log.d("ayam", "hasil normalisasi " + temp1);
-                }
 
                 //hasilku -> array hasil kamera setelah normalisasi
 
                 //proses pemindahan indeks terakhir combine(array hasil kamera) ke array baru
                 double[] hasilBentukKu= normalisasiBentuk[normalisasiBentuk.length-1];
-                Log.d("ayam","hasilku: " +hasilBentukKu.toString());
-                Log.d("ayam","hasilku: " +hasilBentukKu.length);
-                String tempo1 =" ";
-                for(int y=0;y<hasilBentukKu.length;y++){
-
-                    tempo1+=(hasilBentukKu[y]+" ");
-                }
-                Log.d("ayam","isi hasilku: "+ tempo1);
-
-                Log.d("ayam","hasil bentuk lama: "+hasilBentukKu.length);
-
 
                 //proses penghapusan array terakhir, sehingga combine sekarang berisi data test yang sudah dinormalisasi
                 //combine[combine.length-1][0]= Double.parseDouble(null);
 
                 normalisasiBentuk[normalisasiBentuk.length-1]= null;
-//                Log.d("ayam","isi hasilnorm terakhir: " + hasilBentukKu[hasilBentukKu.length-1]);
 //
-//
-//                Log.d("ayam","hasilnorm baru: "+hasilBentukKu.length );
-
                 double[][]datatrainingBentuk = new double[normalisasiBentuk.length-1][normalisasiBentuk[0].length];
 
                 for(int u=0;u<normalisasiBentuk.length-1;u++){
@@ -413,143 +282,62 @@ public class CameraActivity extends AppCompatActivity{
                     }
                 }
 
-                //datatraining=hasilnorm;
-
-                Log.d("ayam","panjang datatraining: "+datatrainingBentuk.length);
-
-//                //print data
-//                for(int i = 0; i< datatrainingBentuk.length; i++){
-//                    String temp1 = "";
-//                    temp1 += ("datatraining "+i + ": ");
-//                    for(int j = 0; j < datatrainingBentuk[i].length; j++){
-//                        temp1+=(datatrainingBentuk[i][j] + " ");
-//                    }
-//                    Log.d("ayam", "isi data training " + temp1);
-//                }
-
                 //nyari hasil
                 Long tsCosine = System.nanoTime();
 
                 hasilSimilarityBentuk = imgsearch.SimilarityMeasurement("cosine", hasilBentukKu , datatrainingBentuk);
-//
-// print data
-                for(int i = 0; i< hasilSimilarityBentuk.length; i++){
-                    String tempq = "";
-                    tempq += ("datatraining "+i + ": ");
-                    for(int j = 0; j < hasilSimilarityBentuk[i].length; j++){
-                        tempq+=(hasilSimilarityBentuk[i][j] + " ");
-                    }
-                    Log.d("ayam", "isi hasil similarity bentuk " + tempq);
-                }
-
-                //penggabungan
-
-//                //perkalian antara weight dengan matrix warna
-//                for(int h=0;h<hasilSimilarityWarna.length;h++){
-//                    hasilSimilarityWarna[h][0]= hasilSimilarityWarna[h][0]*1;
-//                }
-//
-//                //perkalian antara weight dengan matrix bentuk
-//                for(int p=0;p<hasilSimilarityBentuk.length;p++){
-//                    hasilSimilarityBentuk[p][0]=hasilSimilarityBentuk[p][0]*0;
-//                }
-//
-//                double[][]penjumlahan = new double[1020][2];
-//
-//                for(int q=0;q<hasilSimilarityWarna.length;q++){
-//                    penjumlahan[q][0]=hasilSimilarityBentuk[q][0]+hasilSimilarityWarna[q][0];
-//                }
-//
-////                /print data
-//                for(int i = 0; i< penjumlahan.length; i++){
-//                    String temp3 = "";
-//                    temp3 += ("data penjumlahan "+i + ": ");
-//                    for(int j = 0; j < penjumlahan[i].length; j++){
-//                        temp3+=(penjumlahan[i][j] + " ");
-//                    }
-//                    Log.d("ayam", "isi data penjumlahan " + temp3);
-//                }
 
                 //pembuatan map untuk sorting index
 
 
                 Map<Integer, Double> mapBentuk = new TreeMap<Integer, Double>();
 
-
 // data hasil similarity diurutkan berdasarkan index
                 for (int s = 0; s < hasilSimilarityBentuk[0].length; s++) {
                     mapBentuk.put((int) hasilSimilarityBentuk[1][s], hasilSimilarityBentuk[0][s]);
                 }
 
-                Log.d("ayam","panjang map bentuk:" + mapBentuk.size());
                 Map<Integer, Double> mapWarna = new TreeMap<Integer, Double>();
 // data hasil similarity diurutkan berdasarkan index
                 for (int s = 0; s < hasilSimilarityWarna[0].length; s++) {
                     mapWarna.put((int) hasilSimilarityWarna[1][s], hasilSimilarityWarna[0][s]);
                 }
-                Log.d("ayam","panjang map warna:" + mapWarna.size());
 
                 double w1 =1;
                 double w2 =0;
                 //perkalian antara weight dengan matrix warna
                 for (int h = 0; h < mapWarna.size(); h++) {
                     mapWarna.replace(h, mapWarna.get(h) * w1);
-//            mapWarna.get(h) = mapWarna.get(h) * w1;
-//            hasilWarna[0][h] = hasilWarna[0][h] * w1;
+
                 }
 
-//        System.out.println("warna size: " + mapWarna.size());
 
                 //perkalian antara weight dengan matrix bentuk
                 for (int p = 0; p < mapBentuk.size(); p++) {
                     mapBentuk.replace(p, mapBentuk.get(p) * w2);
-//            hasilBentuk[0][p] = hasilBentuk[0][p] * w2;
                 }
-
-//        System.out.println("map warna baru : " + mapWarna);
-//        System.out.println("map bentuk baru : " + mapBentuk);
-//        System.out.println("leng bentuk" + hasilBentuk.length);
 
                 //ubah ke map untuk sorting index
                 Map<Integer, Double> mapJumlah = new TreeMap<Integer, Double>();
 
                 for (int s = 0; s < mapWarna.size(); s++) {
-//            mapWarna.put((int) hasilWarna[1][s], hasilWarna[0][s]);
                     mapJumlah.put(s, mapWarna.get(s) + mapBentuk.get(s));
                 }
-
-//        System.out.println("map jumlah : " + mapJumlah);
-//
-//        System.out.println("penjumlahan 0  " + penjumlahan[0].length);
-//        System.out.println("penjumlahan 1  " + penjumlahan[1].length);
-
 
                 Map<Double,Integer> mapHasilSort = new TreeMap<Double,Integer>();
 
                 for (int s = 0; s < mapJumlah.size(); s++) {
-//            mapWarna.put((int) hasilWarna[1][s], hasilWarna[0][s]);
                     mapHasilSort.put(mapJumlah.get(s),s);
                 }
-
-//        System.out.println("map hasil sort :" + mapHasilSort);
-//
                 TreeMap<Double,Integer> newMapSorting = new TreeMap(Collections.reverseOrder());
                 newMapSorting.putAll(mapHasilSort);
 
-//        System.out.println("newmapsorting:" + newMapSorting);
+                Log.d("ayam","hasil map sorting:" + newMapSorting);
 
                 //access treemap
                 Integer first = newMapSorting.firstEntry().getValue();
-Log.d("ayam","newMapsorting : "+newMapSorting);
-                //    String firstOther = myMap.get(myMap.firstKey());
-        Log.d("ayam","issi first: " +first);
 
-
-
-
-//                int posisiGambar = (int)penjumlahan[1][0];
                 int posisiGambar = first;
-
 
                 //mencari posisi gambar
 
@@ -561,9 +349,6 @@ Log.d("ayam","newMapsorting : "+newMapSorting);
                     }
                 }
 
-                Log.d("gambar","posisi gambar :"+posisi);
-
-
                 Intent intent = new Intent(CameraActivity.this, HasilActivity.class);
                 intent.putExtra("CaptureImg", img);
                 intent.putExtra(EXTRA_JAMUR, jamurModels.get(posisi));
@@ -572,7 +357,6 @@ Log.d("ayam","newMapsorting : "+newMapSorting);
             }
         });
     }
-
 
 
     /** Start pick image activity with chooser. */
@@ -629,17 +413,11 @@ Log.d("ayam","newMapsorting : "+newMapSorting);
             finalBitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
             out.flush();
             out.close();
-            Log.d("imageku",file.getCanonicalPath());
-            Log.d("imageku",file.getAbsolutePath());
-            Log.d("imageku",file.getPath());
-            Log.d("imageku","berhasil");
 
             //DEBUG
 
-            Log.d("Haha", "Hehe");
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("imageku","gagal");
         }
     }
 
@@ -716,7 +494,7 @@ Log.d("ayam","newMapsorting : "+newMapSorting);
             double max=max(data,j);
             double min=min(data,j);
             for(i=0;i<jumdat;i++){
-                    newdata[i][j] = ((data[i][j]-min)*(newmax-newmin))/((max-min)+newmin);
+                newdata[i][j] = ((data[i][j]-min)*(newmax-newmin))/((max-min)+newmin);
                 if (Double.isNaN(newdata[i][j]))
                     newdata[i][j]=0.0;
             }

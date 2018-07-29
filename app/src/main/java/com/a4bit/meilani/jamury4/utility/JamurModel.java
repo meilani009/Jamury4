@@ -18,6 +18,7 @@ public class JamurModel implements Parcelable {
     private String habitat;
     private String color;
     private String cap_shape;
+    private String cook;
 
     public int getId() {
         return id;
@@ -99,6 +100,14 @@ public class JamurModel implements Parcelable {
         this.cap_shape = cap_shape;
     }
 
+    public String getCook() {
+        return cook;
+    }
+
+    public void setCook(String cook) {
+        this.cook = cook;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -116,6 +125,7 @@ public class JamurModel implements Parcelable {
         dest.writeString(this.habitat);
         dest.writeString(this.color);
         dest.writeString(this.cap_shape);
+        dest.writeString(this.cook);
     }
 
     public JamurModel() {
@@ -132,6 +142,7 @@ public class JamurModel implements Parcelable {
         this.habitat = in.readString();
         this.color = in.readString();
         this.cap_shape = in.readString();
+        this.cook = in.readString();
     }
 
     public static final Parcelable.Creator<JamurModel> CREATOR = new Parcelable.Creator<JamurModel>() {
@@ -146,7 +157,7 @@ public class JamurModel implements Parcelable {
         }
     };
 
-    public JamurModel(String img_name, String range, String mushroom_name, String status, String edibility, String usability, String habitat, String color, String cap_shape) {
+    public JamurModel(String img_name, String range, String mushroom_name, String status, String edibility, String usability, String habitat, String color, String cap_shape, String cook) {
         this.img_name = img_name;
         this.range = range;
         this.mushroom_name = mushroom_name;
@@ -156,5 +167,6 @@ public class JamurModel implements Parcelable {
         this.habitat = habitat;
         this.color = color;
         this.cap_shape = cap_shape;
+        this.cook = cook;
     }
 }

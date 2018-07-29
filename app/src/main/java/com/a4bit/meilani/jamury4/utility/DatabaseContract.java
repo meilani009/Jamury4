@@ -21,6 +21,7 @@ public class DatabaseContract {
         static String HABITAT = "habitat";
         static String COLOR = "color";
         static String CAP_SHAPE = "capShape";
+        static String COOK = "cook";
     }
 
     static final class WarnaColumns implements BaseColumns{

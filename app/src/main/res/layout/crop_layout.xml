@@ -22,18 +22,6 @@
         android:contentDescription="@string/result_image_desc"
         android:src="@drawable/placeholder"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/prepoBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="12dp"
-            android:text="@string/preprocessing" />
 
         <Button
             android:id="@+id/eksBtn"
@@ -41,9 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="12dp"
-            android:text="@string/featurekstraction" />
-
-    </LinearLayout>
+            android:text="@string/view_result" />
 
 
 </LinearLayout>

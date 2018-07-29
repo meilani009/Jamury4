@@ -31,6 +31,7 @@ public class JamurDetailActivity extends AppCompatActivity {
     @BindView(R.id.habitat) TextView habitat;
     @BindView(R.id.warna) TextView warna;
     @BindView(R.id.bentukPayung) TextView bentukPayung;
+    @BindView(R.id.tips) TextView tips;
 
     JamurModel jamur;
 
@@ -59,6 +60,7 @@ public class JamurDetailActivity extends AppCompatActivity {
         habitat.setText(jamur.getHabitat());
         warna.setText(jamur.getColor());
         bentukPayung.setText(jamur.getCap_shape());
+        tips.setText(jamur.getCook());
     }
 
     @Override

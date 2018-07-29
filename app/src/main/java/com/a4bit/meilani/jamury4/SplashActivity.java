@@ -176,7 +176,7 @@ public class SplashActivity extends Activity {
             Resources res = getResources();
             InputStream raw_dict;
 
-            raw_dict = res.openRawResource(R.raw.database);
+            raw_dict = res.openRawResource(R.raw.database_new);
 
             reader = new BufferedReader(new InputStreamReader(raw_dict));
             int count = 0;
@@ -186,7 +186,7 @@ public class SplashActivity extends Activity {
 
                 JamurModel jamurModel;
 
-                jamurModel = new JamurModel(splitstr[0], splitstr[1], splitstr[2], splitstr[3], splitstr[4], splitstr[5], splitstr[6], splitstr[7], splitstr[8]);
+                jamurModel = new JamurModel(splitstr[0], splitstr[1], splitstr[2], splitstr[3], splitstr[4], splitstr[5], splitstr[6], splitstr[7], splitstr[8], splitstr[9]);
                 jamurModels.add(jamurModel);
 
                 count++;

@@ -14,6 +14,7 @@ import static android.provider.BaseColumns._ID;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.BentukColumns.EKS_BENTUK;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.CAP_SHAPE;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.COLOR;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.COOK;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.EDIBILITY;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.HABITAT;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.IMG_NAME;
@@ -67,6 +68,7 @@ public class JamurHelper {
                 jamurModel.setHabitat(cursor.getString(cursor.getColumnIndexOrThrow(HABITAT)));
                 jamurModel.setColor(cursor.getString(cursor.getColumnIndexOrThrow(COLOR)));
                 jamurModel.setCap_shape(cursor.getString(cursor.getColumnIndexOrThrow(CAP_SHAPE)));
+                jamurModel.setCook(cursor.getString(cursor.getColumnIndexOrThrow(COOK)));
 
 
                 arrayList.add(jamurModel);
@@ -88,6 +90,7 @@ public class JamurHelper {
         initialValues.put(HABITAT, jamurModel.getHabitat());
         initialValues.put(COLOR, jamurModel.getColor());
         initialValues.put(CAP_SHAPE, jamurModel.getCap_shape());
+        initialValues.put(COOK,jamurModel.getCook());
         return db.insert(tableName, null, initialValues);
     }
 
@@ -104,7 +107,7 @@ public class JamurHelper {
     }
 
     public void insertTransaction(String tableName, JamurModel jamurModel){
-        String sql = "INSERT INTO "+ tableName + " ("+IMG_NAME + ", "+RANGE+ ", "+MUSHROOM_NAME+ ", "+STATUS+ ", "+EDIBILITY+ ", "+USABILITY+ ", "+HABITAT+ ", "+COLOR+ ", "+CAP_SHAPE+ ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO "+ tableName + " ("+IMG_NAME + ", "+RANGE+ ", "+MUSHROOM_NAME+ ", "+STATUS+ ", "+EDIBILITY+ ", "+USABILITY+ ", "+HABITAT+ ", "+COLOR+ ", "+CAP_SHAPE+ ", "+COOK+ ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         SQLiteStatement stmt = db.compileStatement(sql);
         stmt.bindString(1, jamurModel.getImg_name());
         stmt.bindString(2, jamurModel.getRange());
@@ -115,6 +118,7 @@ public class JamurHelper {
         stmt.bindString(7, jamurModel.getHabitat());
         stmt.bindString(8, jamurModel.getColor());
         stmt.bindString(9, jamurModel.getCap_shape());
+        stmt.bindString(10,jamurModel.getCook());
 
         stmt.execute();
         stmt.clearBindings();

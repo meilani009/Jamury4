@@ -9,6 +9,7 @@ import static android.provider.BaseColumns._ID;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.BentukColumns.EKS_BENTUK;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.CAP_SHAPE;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.COLOR;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.COOK;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.EDIBILITY;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.HABITAT;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.IMG_NAME;
@@ -39,7 +40,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             USABILITY + " text not null, "+
             HABITAT + " text not null, "+
             COLOR + " text not null, "+
-            CAP_SHAPE + " text not null);";
+            CAP_SHAPE + " text not null, "+
+            COOK + " text not null);";
 
     public static String CREATE_TABLE_WARNA = "create table " + TABLE_WARNA + " (" + _ID + " integer primary key autoincrement, " +
             EKS_WARNA + " text not null);";
