@@ -25,7 +25,13 @@ import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColum
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_BENTUK;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_JAMURY;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WARNA;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WEIGHT_1;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WEIGHT_2;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WEIGHT_3;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.WarnaColumns.EKS_WARNA;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.Weight1Coloumns.Weight_1;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.Weight2Coloumns.Weight_2;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.Weight3Coloumns.Weight_3;
 
 /**
  * Created by root on 2/23/18.
@@ -69,8 +75,6 @@ public class JamurHelper {
                 jamurModel.setColor(cursor.getString(cursor.getColumnIndexOrThrow(COLOR)));
                 jamurModel.setCap_shape(cursor.getString(cursor.getColumnIndexOrThrow(CAP_SHAPE)));
                 jamurModel.setCook(cursor.getString(cursor.getColumnIndexOrThrow(COOK)));
-
-
                 arrayList.add(jamurModel);
                 cursor.moveToNext();
             }while(!cursor.isAfterLast());
@@ -90,7 +94,8 @@ public class JamurHelper {
         initialValues.put(HABITAT, jamurModel.getHabitat());
         initialValues.put(COLOR, jamurModel.getColor());
         initialValues.put(CAP_SHAPE, jamurModel.getCap_shape());
-        initialValues.put(COOK,jamurModel.getCook());
+        initialValues.put(COOK, jamurModel.getCook());
+
         return db.insert(tableName, null, initialValues);
     }
 
@@ -194,6 +199,108 @@ public class JamurHelper {
         return bentuk;
     }
 
+    public double[][] getAllWeight1(){
+        Log.d("ekstrak", "mulai ambil weight1");
+        Cursor cursor = db.query(TABLE_WEIGHT_1,null,null,null,null,null,_ID + " ASC",null);
+        cursor.moveToFirst();
+        int n = cursor.getCount();
+        Log.d("ekstrak", "total query: " +n);
+
+        double[][] weight1= new double[n][];
+        Weight1Model weight1model;
+        if(cursor.getCount()>0){
+            try {
+                int i = 0;
+                do {
+                    String temp = cursor.getString(cursor.getColumnIndexOrThrow(Weight_1));
+                    String[] split = temp.split(",");
+
+                    double[] tempD = new double[split.length];
+
+                    for (int j = 0; j < split.length; j++) {
+                        tempD[j] = Double.parseDouble(split[j]);
+                    }
+                    weight1[i] = tempD;
+                    Log.d("ekstrak", "data ke "+ i);
+                    cursor.moveToNext();
+                    i++;
+                } while (!cursor.isAfterLast());
+            }catch (Exception e){
+                Log.d("ekstrak", e.toString());
+            }
+        }
+        cursor.close();
+        return weight1;
+    }
+
+    public double[][] getAllWeight2(){
+        Log.d("ekstrak", "mulai ambil weight2");
+        Cursor cursor = db.query(TABLE_WEIGHT_2,null,null,null,null,null,_ID + " ASC",null);
+        cursor.moveToFirst();
+        int n = cursor.getCount();
+        Log.d("ekstrak", "total query: " +n);
+
+        double[][] weight2= new double[n][];
+        Weight2Model weight2model;
+        if(cursor.getCount()>0){
+            try {
+                int i = 0;
+                do {
+                    String temp = cursor.getString(cursor.getColumnIndexOrThrow(Weight_2));
+                    String[] split = temp.split(",");
+
+                    double[] tempD = new double[split.length];
+
+                    for (int j = 0; j < split.length; j++) {
+                        tempD[j] = Double.parseDouble(split[j]);
+                    }
+                    weight2[i] = tempD;
+                    Log.d("ekstrak", "data ke "+ i);
+                    cursor.moveToNext();
+                    i++;
+                } while (!cursor.isAfterLast());
+            }catch (Exception e){
+                Log.d("ekstrak", e.toString());
+            }
+        }
+        cursor.close();
+        return weight2;
+    }
+
+    public double[][] getAllWeight3(){
+        Log.d("ekstrak", "mulai ambil weight3");
+        Cursor cursor = db.query(TABLE_WEIGHT_3,null,null,null,null,null,_ID + " ASC",null);
+        cursor.moveToFirst();
+        int n = cursor.getCount();
+        Log.d("ekstrak", "total query: " +n);
+
+        double[][] weight3= new double[n][];
+        Weight3Model weight3model;
+        if(cursor.getCount()>0){
+            try {
+                int i = 0;
+                do {
+                    String temp = cursor.getString(cursor.getColumnIndexOrThrow(Weight_3));
+                    String[] split = temp.split(",");
+
+                    double[] tempD = new double[split.length];
+
+                    for (int j = 0; j < split.length; j++) {
+                        tempD[j] = Double.parseDouble(split[j]);
+                    }
+                    weight3[i] = tempD;
+                    Log.d("ekstrak", "data ke "+ i);
+                    cursor.moveToNext();
+                    i++;
+                } while (!cursor.isAfterLast());
+            }catch (Exception e){
+                Log.d("ekstrak", e.toString());
+            }
+        }
+        cursor.close();
+        return weight3;
+    }
+
     public void insertTransaction(String tableName, WarnaModel warnaModel){
         String sql = "INSERT INTO " + tableName + " ("+EKS_WARNA +") VALUES (?)";
 
@@ -219,6 +326,48 @@ public class JamurHelper {
 
         Log.d("loggy",sql);
         Log.d("loggy", bentukModel.getEks_bentuk());
+
+    }
+
+    public void insertTransaction(String tableName, Weight1Model weight1Model){
+        String sql = "INSERT INTO " + tableName + " ("+Weight_1 +") VALUES (?)";
+
+        SQLiteStatement stmt = db.compileStatement(sql);
+        stmt.bindString(1, weight1Model.getWeight_1());
+
+        stmt.execute();
+        stmt.clearBindings();
+
+        Log.d("loggy",sql);
+        Log.d("loggy", weight1Model.getWeight_1());
+
+    }
+
+    public void insertTransaction(String tableName, Weight2Model weight2Model){
+        String sql = "INSERT INTO " + tableName + " ("+Weight_2 +") VALUES (?)";
+
+        SQLiteStatement stmt = db.compileStatement(sql);
+        stmt.bindString(1, weight2Model.getWeight_2());
+
+        stmt.execute();
+        stmt.clearBindings();
+
+        Log.d("loggy",sql);
+        Log.d("loggy", weight2Model.getWeight_2());
+
+    }
+
+    public void insertTransaction(String tableName, Weight3Model weight3Model){
+        String sql = "INSERT INTO " + tableName + " ("+Weight_3 +") VALUES (?)";
+
+        SQLiteStatement stmt = db.compileStatement(sql);
+        stmt.bindString(1, weight3Model.getWeight_3());
+
+        stmt.execute();
+        stmt.clearBindings();
+
+        Log.d("loggy",sql);
+        Log.d("loggy", weight3Model.getWeight_3());
 
     }
 }

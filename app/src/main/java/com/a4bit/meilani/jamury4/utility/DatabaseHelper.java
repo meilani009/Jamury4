@@ -18,9 +18,15 @@ import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColum
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.STATUS;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.DictionaryColumns.USABILITY;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_BENTUK;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WEIGHT_1;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WEIGHT_2;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WEIGHT_3;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.WarnaColumns.EKS_WARNA;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.Weight1Coloumns.Weight_1;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_JAMURY;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WARNA;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.Weight2Coloumns.Weight_2;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.Weight3Coloumns.Weight_3;
 
 /**
  * Created by root on 2/23/18.
@@ -49,6 +55,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static String CREATE_TABLE_BENTUK = "create table " + TABLE_BENTUK + " (" + _ID + " integer primary key autoincrement, " +
             EKS_BENTUK + " text not null);";
 
+    public static String CREATE_TABLE_WEIGHT1 = "create table " + TABLE_WEIGHT_1 + " ("+ _ID + " integer primary key autoincrement, " +
+            Weight_1 + " text not null);";
+
+    public static String CREATE_TABLE_WEIGHT2 = "create table " + TABLE_WEIGHT_2 + " ("+ _ID + " integer primary key autoincrement, " +
+            Weight_2 + " text not null);";
+
+    public static String CREATE_TABLE_WEIGHT3 = "create table " + TABLE_WEIGHT_3 + " ("+ _ID + " integer primary key autoincrement, " +
+            Weight_3 + " text not null);";
+
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -58,6 +73,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_JAMURY);
         db.execSQL(CREATE_TABLE_WARNA);
         db.execSQL(CREATE_TABLE_BENTUK);
+        db.execSQL(CREATE_TABLE_WEIGHT1);
+        db.execSQL(CREATE_TABLE_WEIGHT2);
+        db.execSQL(CREATE_TABLE_WEIGHT3);
+
         Log.d("loggy", CREATE_TABLE_JAMURY);
     }
 
@@ -66,6 +85,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_JAMURY);
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_WARNA);
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_BENTUK);
+        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_WEIGHT_1);
+        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_WEIGHT_2);
+        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_WEIGHT_3);
+
         onCreate(db);
     }
 }

@@ -108,7 +108,6 @@ public class CameraActivity extends AppCompatActivity{
 
         quick_start_cropped_image = (ImageView) findViewById(R.id.quick_start_cropped_image);
 
-        //PRE-PROCESSING //
 
         //EKSTRAKSI FITUR////
         eksBtn = (Button) findViewById(R.id.eksBtn);
@@ -120,6 +119,7 @@ public class CameraActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
 
+                //PRE PROCESSING
                 img = bitmapCropped.copy(Bitmap.Config.ARGB_8888, true);
 
                 int[] pixel = new int[9];
@@ -165,6 +165,8 @@ public class CameraActivity extends AppCompatActivity{
                     Log.d("gambar", e.toString());
                 }
 
+
+                //FEATURE EKSTRACTION
 
                 VectorLib vlib = new VectorLib();
                 ImageLib imgsearch = new ImageLib();

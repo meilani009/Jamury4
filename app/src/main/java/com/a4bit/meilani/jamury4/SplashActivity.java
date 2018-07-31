@@ -20,6 +20,9 @@ import com.a4bit.meilani.jamury4.utility.BentukModel;
 import com.a4bit.meilani.jamury4.utility.JamurHelper;
 import com.a4bit.meilani.jamury4.utility.JamurModel;
 import com.a4bit.meilani.jamury4.utility.WarnaModel;
+import com.a4bit.meilani.jamury4.utility.Weight1Model;
+import com.a4bit.meilani.jamury4.utility.Weight2Model;
+import com.a4bit.meilani.jamury4.utility.Weight3Model;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -32,6 +35,9 @@ import butterknife.ButterKnife;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_BENTUK;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_JAMURY;
 import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WARNA;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WEIGHT_1;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WEIGHT_2;
+import static com.a4bit.meilani.jamury4.utility.DatabaseContract.TABLE_WEIGHT_3;
 
 /**
  * Created by Meilani Wulandari on 20-Jan-18.
@@ -58,7 +64,7 @@ public class SplashActivity extends Activity {
 //            }
 //        },3000);
 
-        new LoadData(TABLE_JAMURY, TABLE_WARNA, TABLE_BENTUK).execute();
+        new LoadData(TABLE_JAMURY, TABLE_WARNA, TABLE_BENTUK, TABLE_WEIGHT_1, TABLE_WEIGHT_2 , TABLE_WEIGHT_3).execute();
     }
 
     private class LoadData extends AsyncTask<Void, Integer, Void>{
@@ -66,14 +72,18 @@ public class SplashActivity extends Activity {
         JamurHelper jamurHelper;
         AppPreference appPreference;
 
-        String tableJamur,tableWarna, tableBentuk;
+        String tableJamur,tableWarna, tableBentuk, tableWeight1, tableWeight2 , tableWeight3;
         double progress;
         double maxprogress = 100;
 
-        public LoadData(String tableJamur, String tableWarna, String tableBentuk){
+        public LoadData(String tableJamur, String tableWarna, String tableBentuk, String tableWeight1 , String tableWeight2 , String tableWeight3){
             this.tableJamur = tableJamur;
             this.tableWarna = tableWarna;
             this.tableBentuk = tableBentuk;
+            this.tableWeight1 = tableWeight1;
+            this.tableWeight2 = tableWeight2;
+            this.tableWeight3 = tableWeight3;
+
         }
 
         @Override
@@ -83,12 +93,17 @@ public class SplashActivity extends Activity {
                 ArrayList<JamurModel> jamurModels = preLoadRaw();
                 ArrayList<WarnaModel> warnaModels = preLoadColorEks();
                 ArrayList<BentukModel> bentukModels = preLoadBentukEks();
+                ArrayList<Weight1Model> weight1Models = preLoadWeight1();
+                ArrayList<Weight2Model> weight2Models = preLoadWeight2();
+                ArrayList<Weight3Model> weight3Models = preLoadWeight3();
+
+
 
 
                 progress = 30;
                 publishProgress((int)progress);
                 Double progressMaxInsert = 80.0;
-                Double progressDiff = (progressMaxInsert - progress) / (jamurModels.size() + warnaModels.size()+ bentukModels.size());
+                Double progressDiff = (progressMaxInsert - progress) / (jamurModels.size() + warnaModels.size()+ bentukModels.size()+ weight1Models.size()+ weight2Models.size() + weight3Models.size());
 
                 jamurHelper.open();
                 jamurHelper.beginTransaction();
@@ -114,6 +129,27 @@ public class SplashActivity extends Activity {
 //                        progress+=progressDiff;
 //                        publishProgress((int)progress);
                         Log.d("loggy","insert bentuk success");
+                    }
+
+                    for (Weight1Model model : weight1Models){
+                        jamurHelper.insertTransaction(tableWeight1,model);
+//                        progress+=progressDiff;
+//                        publishProgress((int)progress);
+                        Log.d("loggy","insert weight1 success");
+                    }
+
+                    for (Weight2Model model : weight2Models){
+                        jamurHelper.insertTransaction(tableWeight2,model);
+//                        progress+=progressDiff;
+//                        publishProgress((int)progress);
+                        Log.d("loggy","insert weight2 success");
+                    }
+
+                    for (Weight3Model model : weight3Models){
+                        jamurHelper.insertTransaction(tableWeight3,model);
+//                        progress+=progressDiff;
+//                        publishProgress((int)progress);
+                        Log.d("loggy","insert weight3 success");
                     }
 
                     jamurHelper.setTransactionSuccess();
@@ -260,6 +296,102 @@ public class SplashActivity extends Activity {
             e.printStackTrace();
         }
         return bentukModels;
+    }
+
+    public ArrayList<Weight1Model> preLoadWeight1(){
+        ArrayList<Weight1Model> weight1Models = new ArrayList<>();
+        String line = null;
+        BufferedReader reader2;
+        try{
+            Resources res = getResources();
+            InputStream weight1;
+
+            weight1 = res.openRawResource(R.raw.weight1);
+
+            reader2 = new BufferedReader(new InputStreamReader(weight1));
+            int count =0;
+            do{
+                line = reader2.readLine();
+                if(line!=null) {
+                    Log.d("colourr", line);
+                    Weight1Model weight1Model;
+                    weight1Model = new Weight1Model(line);
+
+                    weight1Models.add(weight1Model);
+
+                    count++;
+                }
+
+            }while (line!=null);
+        } catch (Exception e){
+            Log.d("colourrr", "apakah error");
+            e.printStackTrace();
+        }
+        return weight1Models;
+    }
+
+    public ArrayList<Weight2Model> preLoadWeight2(){
+        ArrayList<Weight2Model> weight2Models = new ArrayList<>();
+        String line = null;
+        BufferedReader reader2;
+        try{
+            Resources res = getResources();
+            InputStream weight2;
+
+            weight2 = res.openRawResource(R.raw.weight2);
+
+            reader2 = new BufferedReader(new InputStreamReader(weight2));
+            int count =0;
+            do{
+                line = reader2.readLine();
+                if(line!=null) {
+                    Log.d("colourr", line);
+                    Weight2Model weight2Model;
+                    weight2Model = new Weight2Model(line);
+
+                    weight2Models.add(weight2Model);
+
+                    count++;
+                }
+
+            }while (line!=null);
+        } catch (Exception e){
+            Log.d("colourrr", "apakah error");
+            e.printStackTrace();
+        }
+        return weight2Models;
+    }
+
+    public ArrayList<Weight3Model> preLoadWeight3(){
+        ArrayList<Weight3Model> weight3Models = new ArrayList<>();
+        String line = null;
+        BufferedReader reader2;
+        try{
+            Resources res = getResources();
+            InputStream weight3;
+
+            weight3 = res.openRawResource(R.raw.weight3);
+
+            reader2 = new BufferedReader(new InputStreamReader(weight3));
+            int count =0;
+            do{
+                line = reader2.readLine();
+                if(line!=null) {
+                    Log.d("colourr", line);
+                    Weight3Model weight3Model;
+                    weight3Model = new Weight3Model(line);
+
+                    weight3Models.add(weight3Model);
+
+                    count++;
+                }
+
+            }while (line!=null);
+        } catch (Exception e){
+            Log.d("colourrr", "apakah error");
+            e.printStackTrace();
+        }
+        return weight3Models;
     }
 }
 
