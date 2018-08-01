@@ -182,15 +182,23 @@ public class CameraActivity extends AppCompatActivity{
 
                 //proses akses db
 
+                Log.d("ayam" , "proses akses db ");
+
                 JamurHelper jamurHelper = new JamurHelper(getApplicationContext());
                 jamurHelper.open();
 
                 double[][] dataWarna = jamurHelper.getAllWarna();
                 double[][] dataBentuk = jamurHelper.getAllBentuk();
+                double[][] weight1 = jamurHelper.getAllWeight1();
+                double[][] weight2 = jamurHelper.getAllWeight2();
+                double[][] weight3 = jamurHelper.getAllWeight3();
                 ArrayList<JamurModel> jamurModels = jamurHelper.getAllData();
                 jamurHelper.close();
 
                 //db ditutup
+
+                Log.d("ayam" , "db ditutup ");
+
                 //proses ekstraksi warna
                 rgb_colors = getRGB(file.getAbsolutePath()); //[256][256][3]
                 cvq = imgsearch.ColorFeatureExtraction(rgb_colors);
@@ -226,17 +234,9 @@ public class CameraActivity extends AppCompatActivity{
                     }
                 }
 
-                //similarity//
-                hasilSimilarityWarna = imgsearch.SimilarityMeasurement("cosine", hasilWarnaKu, datatrainingWarna);
-                for(int i = 0; i< hasilSimilarityWarna.length; i++){
-                    String temp = "";
-                    temp += ("hasil baris "+i + ": ");
-                    for(int j = 0; j < hasilSimilarityWarna[i].length; j++){
-                        temp+=(hasilSimilarityWarna[i][j] + " ");
-                    }
+                Log.d("ayam" , "ekstraksi warna selesai ");
 
-                    Log.d("ayam", "hasil similarity warna : " + temp);
-                }
+
 
                 ///EKSTRAKSI BENTUK ////
 
@@ -283,78 +283,80 @@ public class CameraActivity extends AppCompatActivity{
                         datatrainingBentuk[u][s]=normalisasiBentuk[u][s];
                     }
                 }
-
-                //nyari hasil
-                Long tsCosine = System.nanoTime();
-
-                hasilSimilarityBentuk = imgsearch.SimilarityMeasurement("cosine", hasilBentukKu , datatrainingBentuk);
-
-                //pembuatan map untuk sorting index
+//
+                Log.d("ayam" , "ekstraksi bentuk selesai ");
 
 
-                Map<Integer, Double> mapBentuk = new TreeMap<Integer, Double>();
 
-// data hasil similarity diurutkan berdasarkan index
-                for (int s = 0; s < hasilSimilarityBentuk[0].length; s++) {
-                    mapBentuk.put((int) hasilSimilarityBentuk[1][s], hasilSimilarityBentuk[0][s]);
+                /////// NEURAL NETWORK BACKPRO //////
+
+//                double[][] data_test = vlib.mergeArray_col(hasilBentukKu,hasilWarnaKu);
+
+                double[] data_test = new double[hasilWarnaKu.length+hasilBentukKu.length];
+
+                //copy first array into new array
+                for(int i=0;i< hasilWarnaKu.length;i++){
+                    data_test[i]=hasilWarnaKu[i];
                 }
 
-                Map<Integer, Double> mapWarna = new TreeMap<Integer, Double>();
-// data hasil similarity diurutkan berdasarkan index
-                for (int s = 0; s < hasilSimilarityWarna[0].length; s++) {
-                    mapWarna.put((int) hasilSimilarityWarna[1][s], hasilSimilarityWarna[0][s]);
+                //copy second array into new array
+                for(int i=0;i<hasilBentukKu.length;i++){
+                    data_test[hasilWarnaKu.length+i]=hasilBentukKu[i];
+                }
+                for(int i = 0; i< data_test.length; i++) {
+                    Log.d("ayam" , " isi data test ke : " + i + " adalah : "+ data_test[i]);
                 }
 
-                double w1 =1;
-                double w2 =0;
-                //perkalian antara weight dengan matrix warna
-                for (int h = 0; h < mapWarna.size(); h++) {
-                    mapWarna.replace(h, mapWarna.get(h) * w1);
+                int kelas = 100;
+                boolean ketemu;
+                double[] output;
+                int jumlahData = data_test.length;
 
+                output = hitung(weight1, weight2, weight3, data_test);
+                for(int z=0 ; z < output.length;z++){
+                    Log.d("ayam" , "output : " + output[z]);
                 }
 
-
-                //perkalian antara weight dengan matrix bentuk
-                for (int p = 0; p < mapBentuk.size(); p++) {
-                    mapBentuk.replace(p, mapBentuk.get(p) * w2);
+                ketemu = false;
+                int j = 0;
+                while ((j < kelas) && (!ketemu)) {
+                    if (output[j] == 1.0) {
+                        ketemu = true;
+                    } else {
+                        j++;
+                    }
                 }
+                int hasil_akhir = j+1;
+                Log.d("ayam","hasil_akhir : " + hasil_akhir);
+                Log.d("ayam" , "output size : " + output);
 
-                //ubah ke map untuk sorting index
-                Map<Integer, Double> mapJumlah = new TreeMap<Integer, Double>();
+//                int posisiGambar = first;
 
-                for (int s = 0; s < mapWarna.size(); s++) {
-                    mapJumlah.put(s, mapWarna.get(s) + mapBentuk.get(s));
-                }
 
-                Map<Double,Integer> mapHasilSort = new TreeMap<Double,Integer>();
-
-                for (int s = 0; s < mapJumlah.size(); s++) {
-                    mapHasilSort.put(mapJumlah.get(s),s);
-                }
-                TreeMap<Double,Integer> newMapSorting = new TreeMap(Collections.reverseOrder());
-                newMapSorting.putAll(mapHasilSort);
-
-                Log.d("ayam","hasil map sorting:" + newMapSorting);
-
-                //access treemap
-                Integer first = newMapSorting.firstEntry().getValue();
-
-                int posisiGambar = first;
 
                 //mencari posisi gambar
 
-                int posisi = 0;
-                for(int i = 0 ; i< jamurModels.size(); i++){
-                    if(posisiGambar <= Integer.parseInt((jamurModels.get(i)).getRange())){
-                        posisi = i;
-                        break;
-                    }
+//                int posisi = 0;
+//                for(int i = 0 ; i< jamurModels.size(); i++){
+//                    if(hasil_akhir <= Integer.parseInt((jamurModels.get(i)).getRange())){
+//                        posisi = i;
+//                        Log.d("ayam", "posisi yang didapat: " + posisi);
+//                        break;
+//                    }
+//                }
+
+                if(hasil_akhir == 101){
+                    Intent intent = new Intent(CameraActivity.this, Hasil0Activity.class);
+                    intent.putExtra("CaptureImg", img);
+                    startActivity(intent);
+                }
+                else{
+                    Intent intent = new Intent(CameraActivity.this, HasilActivity.class);
+                    intent.putExtra("CaptureImg", img);
+                    intent.putExtra(EXTRA_JAMUR, jamurModels.get(hasil_akhir-1));
+                    startActivity(intent);
                 }
 
-                Intent intent = new Intent(CameraActivity.this, HasilActivity.class);
-                intent.putExtra("CaptureImg", img);
-                intent.putExtra(EXTRA_JAMUR, jamurModels.get(posisi));
-                startActivity(intent);
 
             }
         });
@@ -539,6 +541,95 @@ public class CameraActivity extends AppCompatActivity{
         return data;
 
     }
+
+    public double[] hitung(double[][] weight1, double[][] weight2, double[][] weight3, double[] datates){
+        int bias = 1;
+        int[] hidden_unit = {110, 55};
+        int jumlah_hidden = hidden_unit.length;
+        int jumlah_output = 100;
+        double[][] weight_input = new double[datates.length + 1][hidden_unit[0]];
+        double[][][] weight_hidden = new double[jumlah_hidden][][];
+        for(int a = 0; a < jumlah_hidden - 1; a++){
+            weight_hidden[a] = new double[hidden_unit[a] + 1][hidden_unit[(a + 1)]];
+        }
+        weight_hidden[(jumlah_hidden - 1)] = new double[hidden_unit[(jumlah_hidden - 1)]][jumlah_output];
+
+        //update manual sesuai jumlah hidden layer
+        weight_input = weight1;
+        weight_hidden[0] = weight2;
+        weight_hidden[1] = weight3;
+
+        double[] input_layer = new double[datates.length + 1];
+        double[] sigmoid_input = new double[hidden_unit[0]];
+        double[][] hidden_layer = new double[jumlah_hidden][];
+        for(int a = 0; a < jumlah_hidden; a++){
+            hidden_layer[a] = new double[hidden_unit[a] + 1];
+        }
+        double[][] sigmoid_hidden = new double[jumlah_hidden][];
+        for(int a = 0; a < jumlah_hidden - 1; a++){
+            sigmoid_hidden[a] = new double[hidden_unit[(a + 1)]];
+        }
+        sigmoid_hidden[(jumlah_hidden - 1)] = new double[jumlah_output];
+        double[] output_layer = new double[jumlah_output];
+
+        input_layer[0] = bias;
+        System.arraycopy(datates, 0, input_layer, 1, datates.length);
+        VectorLib vlib = new VectorLib();
+        double[] hitung_input = hitung_data(input_layer, weight_input);
+        for(int a = 0; a < hidden_unit[0]; a++){
+            sigmoid_input[a] = (1 / (1 + Math.exp(-1 * hitung_input[a])));
+        }
+        hidden_layer[0][0] = bias;
+        System.arraycopy(sigmoid_input, 0, hidden_layer[0], 1, hidden_unit[0]);
+        for(int a = 0; a < jumlah_hidden - 1; a++){
+            double[] hitung_hidden = hitung_data(hidden_layer[a], weight_hidden[a]);
+            for(int b = 0; b < hidden_unit[(a + 1)]; b++){
+                sigmoid_hidden[a][b] = (1 / (1 + Math.exp(-1 * hitung_hidden[b])));
+            }
+            hidden_layer[(a + 1)][0] = bias;
+            System.arraycopy(sigmoid_hidden[a], 0, hidden_layer[(a + 1)], 1, hidden_unit[(a + 1)]);
+        }
+
+        double[] hitung_hidden = hitung_data(hidden_layer[(jumlah_hidden - 1)], weight_hidden[(jumlah_hidden - 1)]);
+        for(int a = 0; a < jumlah_output; a++){
+            sigmoid_hidden[(jumlah_hidden - 1)][a] = (1 / (1 + Math.exp(-1 * hitung_hidden[a])));
+        }
+        System.arraycopy(sigmoid_hidden[(jumlah_hidden - 1)], 0, output_layer, 0, jumlah_output);
+        for(int a = 0; a < jumlah_output; a++){
+            if(output_layer[a] > 0.8){
+                output_layer[a] = 1;
+            }
+            if(output_layer[a] < 0.2){
+                output_layer[a] = 0;
+            }
+        }
+
+        return output_layer;
+    }
+
+    public double[] hitung_data(double[] data, double[][] weight){
+        double[] output = null;
+        int colB = weight[0].length;
+        int colA = data.length;
+        int rowA = 1;
+        int rowB = weight.length;
+        int count = colA;
+
+        if(colA == rowB){
+            output = new double[colB];
+            for(int c2 = 0; c2 < colB; c2++){
+                int c1 = 0;
+                output[c2] = 0;
+                while(c1 < count){
+                    output[c2] += data[c1] * weight[c1][c2];
+                    c1++;
+                }
+            }
+        }
+
+        return output;
+    }
+
 
 
 }

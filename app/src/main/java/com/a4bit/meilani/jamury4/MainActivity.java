@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn_start,btn_daftar,btn_search,btn_manual;
+    Button btn_start,btn_daftar,btn_search,btn_manual,btn_about;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
         btn_start=(Button)findViewById(R.id.start_button);
         btn_daftar=(Button)findViewById(R.id.dft_button);
-        btn_search=(Button)findViewById(R.id.search_button);
+//        btn_search=(Button)findViewById(R.id.search_button);
         btn_manual=(Button)findViewById(R.id.manual_button);
+        btn_about=(Button)findViewById(R.id.about_button);
 
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,6 +49,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, PetunjukActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,AboutActivity.class);
                 startActivity(intent);
             }
         });

@@ -17,22 +17,6 @@
         android:contentDescription="@string/todo" />
 
 
-
-    <!--<Button-->
-        <!--android:id="@+id/search_button"-->
-        <!--android:layout_width="250dp"-->
-        <!--android:layout_height="60dp"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:background="#144fa9"-->
-        <!--android:drawableStart="@drawable/ic_search"-->
-        <!--android:paddingBottom="16dp"-->
-        <!--android:paddingStart="16dp"-->
-        <!--android:paddingEnd="36dp"-->
-        <!--android:paddingTop="10dp"-->
-        <!--android:text="@string/cari"-->
-        <!--android:textColor="#e8e9e9"-->
-        <!--android:layout_marginStart="70dp" />-->
-
     <Button
         android:id="@+id/start_button"
         android:layout_width="250dp"
@@ -64,12 +48,27 @@
         android:textColor="#e8e9e9" />
 
     <Button
+        android:id="@+id/about_button"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:background="#144fa9"
+        android:drawableStart="@drawable/about"
+        android:paddingBottom="16dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="36dp"
+        android:paddingTop="10dp"
+        android:text="@string/about"
+        android:textColor="#e8e9e9"
+        android:layout_marginStart="70dp" />
+
+    <Button
         android:id="@+id/manual_button"
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:layout_marginStart="70dp"
         android:layout_marginTop="10dp"
-        android:background="#144fa9"
+        android:background="#fd5656"
         android:drawableStart="@drawable/manual"
         android:paddingBottom="16dp"
         android:paddingEnd="36dp"
